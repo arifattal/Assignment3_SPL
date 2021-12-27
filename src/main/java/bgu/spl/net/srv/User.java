@@ -13,8 +13,8 @@ public class User {
     private int age;
     private String birthday; //this is received during registration and might not be a necessary field
     private User.Status status;
-    private List<User> followList;
-    private List<User> followersList;
+    private List<String> followList;
+    private List<String> followersList;
     private List<String> blockedUsersList; //change this to List<tempUser> if user names are not unique
 
     public User(String userName, String password, String birthday) {
@@ -42,11 +42,11 @@ public class User {
         return status;
     }
 
-    public List<User> getFollowList() {
+    public List<String> getFollowList() {
         return followList;
     }
 
-    public List<User> getFollowersList() {
+    public List<String> getFollowersList() {
         return followersList;
     }
 
@@ -57,4 +57,29 @@ public class User {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public boolean isFollowing(String userName){
+        return followList.contains(userName);
+    }
+
+    public boolean isFollowedBy(String userName){
+        return followersList.contains(userName);
+    }
+
+    public void follow(String userName){
+        followList.add(userName);
+    }
+
+    public void unFollow(String userName){
+        followList.remove(userName);
+    }
+
+    public void addFollower(String userName){
+        followersList.add(userName);
+    }
+
+    public void removeFollower(String userName){
+        followersList.remove(userName);
+    }
+
 }

@@ -8,9 +8,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Data {
     //change to concurrent structures
-    List<Message> post_pmList;
-    ConcurrentHashMap<String, User> registeredUsersHM;
-    List<String> filteredWords;
+    private List<Message> post_pmList;
+    private ConcurrentHashMap<String, User> registeredUsersHM;
+    private List<String> filteredWords;
 
     //implement data as a singleton
     private static class DataHolder{
