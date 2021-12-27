@@ -9,9 +9,9 @@ public class registerMessage extends Message{
     private String birthday;
 
     @Override
-    public Message runMessage() {
+    public Message runMessage(User user) {
         if (!data.isRegistered(username)){ //create new user if not registered, and add him to our data structure
-            User user = new User(username, password, birthday);
+            user = new User(username, password, birthday);
             data.RegisterUser(user);
             Message ack = new ACKmessage<>((short) 10, this.opCode, "");
             return ack;

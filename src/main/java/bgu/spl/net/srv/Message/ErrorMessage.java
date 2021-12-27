@@ -1,5 +1,7 @@
 package bgu.spl.net.srv.Message;
 
+import bgu.spl.net.srv.User;
+
 public class ErrorMessage extends Message{
     private short messageOpcode;
 
@@ -9,7 +11,7 @@ public class ErrorMessage extends Message{
     }
 
     @Override
-    public Message runMessage() {
+    public Message runMessage(User user) {
         System.out.println("Error " + messageOpcode);
         return this;
     }

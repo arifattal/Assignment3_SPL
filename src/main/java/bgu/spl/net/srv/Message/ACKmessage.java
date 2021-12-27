@@ -1,5 +1,7 @@
 package bgu.spl.net.srv.Message;
 
+import bgu.spl.net.srv.User;
+
 public class ACKmessage<T> extends Message{
     private short messageOpcode;
     private T optional;
@@ -11,7 +13,7 @@ public class ACKmessage<T> extends Message{
     }
 
     @Override
-    public Message runMessage() {
+    public Message runMessage(User user) {
         System.out.println("ACK " + messageOpcode + optional.toString());
         return this;
     }

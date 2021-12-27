@@ -15,9 +15,8 @@ public class LoginMessage extends Message{
     }
 
     @Override
-    public Message runMessage() {
-        User user = data.getUser(userName);
-        if (user == null || !user.getPassword().equals(password) || user.getStatus() == User.Status.loggedIn || captcha == 0){
+    public Message runMessage(User user) {
+        if (user.getStatus() != User.Status.loggedOut|| !user.getPassword().equals(password) || captcha == 0){
             Message error = new ErrorMessage((short) 11, this.opCode);
             return error;
         }

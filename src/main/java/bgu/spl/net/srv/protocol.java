@@ -5,6 +5,8 @@ import bgu.spl.net.bidi.Connections;
 import bgu.spl.net.srv.Message.Message;
 
 public class protocol implements BidiMessagingProtocol {
+    User user;
+
     @Override
     public void start(int connectionId, Connections connections) {
 
@@ -12,7 +14,7 @@ public class protocol implements BidiMessagingProtocol {
 
     @Override
     public void process(Message message) {
-        message.runMessage();
+        message.runMessage(user);
     }
 
     @Override
