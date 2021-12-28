@@ -63,6 +63,8 @@ public class User {
         return blockedUsersList;
     }
 
+
+
     public void setStatus(Status status) {
         this.status = status;
     }

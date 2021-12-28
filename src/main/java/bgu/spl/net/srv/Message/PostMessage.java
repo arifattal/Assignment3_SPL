@@ -48,20 +48,21 @@ public class PostMessage extends Message{
         }
         else{
             for (String element: user.getFollowersList()){//add the user's followers to sendNotificationList
-                User user1 = Data.getInstance().getUser(element);
+                User user1 = data.getUser(element);
                 if (user1 != null && user1.getStatus() != User.Status.unRegistered && !user1.isBlocking(user.getUserName())){
                     sendNotificationList.add(user1);
                 }
             }
             taggedList = createTaggedList(content); //uses the auxiliary function to receive a list of names tagged in the post
             for (String element: taggedList){//add tagged users to sendNotificationList
-                User user1 = Data.getInstance().getUser(element);
+                User user1 = data.getUser(element);
                 if (user1 != null && user1.getStatus() != User.Status.unRegistered && !user1.isBlocking(user.getUserName())){
                     if (!sendNotificationList.contains(user1)){ //add the user tagged if he isn't already in sendNotificationList
                         sendNotificationList.add(user1);
                     }
                 }
             }
+            data.addPost_pm(this); //add post to the post_pm list
             for (User user1: sendNotificationList){
                 NotificationMessage notification = new NotificationMessage((short)9, (short)1, user.getUserName(), content);
                 notification.runMessage(user1); //running a notification message is different to other messages. here the user sent is the "other user"

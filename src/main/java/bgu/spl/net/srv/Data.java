@@ -51,7 +51,15 @@ public class Data {
         return loggedInUsers;
     }
 
+    public List<String> getFilteredWords() {
+        return filteredWords;
+    }
+
     public void incDecLoggedInUsers(int i){
         loggedInUsers = loggedInUsers + i;
+    }
+
+    public void addPost_pm(Message message){
+        post_pmList.add(message);
     }
 }
