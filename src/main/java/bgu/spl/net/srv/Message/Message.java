@@ -8,4 +8,7 @@ public abstract class Message {
     protected short opCode;
     protected Data data = Data.getInstance();
     public abstract Message runMessage(User user);
+    public short getOpCode(){
+        return opCode;
+    }
 }

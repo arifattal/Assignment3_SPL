@@ -26,13 +26,13 @@ public class PostMessage extends Message{
             if (character == '@'){ //start accumulating
                 accumulate = true;
             }
-            if (character == ' ' && accumulate){ //stop accumulating, send condition stops the function from adding garbage to the list
+            if (character == ' ' && accumulate){ //stop accumulating, the second condition stops the function from adding garbage to the list
                 accumulate = false;
                 taggedUsers.add(accumulator);
                 accumulator = ""; //reset accumulator
             }
         }
-        if (accumulate){ //this is used to deal with cases where the last "word" is a tag, for example "@moshe and @alina". since in this case we don't enter the third if statement
+        if (accumulate){ //this is used to deal with cases where the last "word" is a tag, for example "@moshe and @alina". since in this case we don't enter the third if statement which searches for spaces
             taggedUsers.add(accumulator);
         }
         return taggedUsers;
@@ -49,7 +49,7 @@ public class PostMessage extends Message{
         else{
             for (String element: user.getFollowersList()){//add the user's followers to sendNotificationList
                 User user1 = data.getUser(element);
-                if (user1 != null && user1.getStatus() != User.Status.unRegistered && !user1.isBlocking(user.getUserName())){
+                if (user1 != null && user1.getStatus() != User.Status.unRegistered){ //checking for blocking isn't necessary here since user1 won't be following user
                     sendNotificationList.add(user1);
                 }
             }

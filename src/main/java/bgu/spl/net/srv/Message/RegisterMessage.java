@@ -2,11 +2,18 @@ package bgu.spl.net.srv.Message;
 
 import bgu.spl.net.srv.User;
 
-public class registerMessage extends Message{
+public class RegisterMessage extends Message{
 
     private String username;
     private String password;
     private String birthday;
+
+    public RegisterMessage(short opCode, String username, String password, String birthday) {
+        this.opCode = opCode;
+        this.username = username;
+        this.password = password;
+        this.birthday = birthday;
+    }
 
     @Override
     public Message runMessage(User user) {
@@ -22,10 +29,5 @@ public class registerMessage extends Message{
         }
     }
 
-    public registerMessage(short opCode, String username, String password, String birthday) {
-        this.opCode = opCode;
-        this.username = username;
-        this.password = password;
-        this.birthday = birthday;
-    }
+
 }

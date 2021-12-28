@@ -7,7 +7,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler<T> {
+public class BlockingConnectionHandler<T> implements Runnable, bgu.spl.net.srv.bidi.ConnectionHandler<T> {
 
     private final MessagingProtocol<T> protocol;
     private final MessageEncoderDecoder<T> encdec;
@@ -51,5 +51,10 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     public void close() throws IOException {
         connected = false;
         sock.close();
+    }
+
+    @Override
+    public void send(T msg) {
+
     }
 }

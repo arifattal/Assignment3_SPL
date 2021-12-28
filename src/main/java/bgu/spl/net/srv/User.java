@@ -15,12 +15,12 @@ public class User {
     private String UserName;
     private String password;
     private int age;
-    private String birthday; //this is received during registration and might not be a necessary field
+    private String birthday;
     private User.Status status;
     private int numOfPosts;
     private List<String> followList;
     private List<String> followersList;
-    private List<String> blockedUsersList; //change this to List<tempUser> if user names are not unique
+    private List<String> blockedUsersList;
     private ConcurrentLinkedQueue<NotificationMessage> notificationsQueue; //this queue is used for accumulating notifications while the user is logged out
 
 
@@ -63,6 +63,17 @@ public class User {
         return blockedUsersList;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public Queue<NotificationMessage> getNotificationsQueue() {
+        return notificationsQueue;
+    }
 
 
     public void setStatus(Status status) {
@@ -105,24 +116,16 @@ public class User {
         return numOfPosts;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public Queue<NotificationMessage> getNotificationsQueue() {
-        return notificationsQueue;
-    }
-
     public void addNotification(NotificationMessage notification){
         notificationsQueue.add(notification);
     }
 
     public boolean isBlocking(String userName){
         return blockedUsersList.contains(userName);
+    }
+
+    public void block(String userName){
+        blockedUsersList.add(userName);
     }
 
 }
