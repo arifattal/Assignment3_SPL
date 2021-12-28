@@ -13,6 +13,7 @@ public class User {
     private int age;
     private String birthday; //this is received during registration and might not be a necessary field
     private User.Status status;
+    private int numOfPosts;
     private List<String> followList;
     private List<String> followersList;
     private List<String> blockedUsersList; //change this to List<tempUser> if user names are not unique
@@ -25,6 +26,7 @@ public class User {
         }catch (NumberFormatException e){}
         this.birthday = birthday;
         status = Status.loggedOut;
+        numOfPosts = 0;
         followList = new ArrayList<>();
         followersList = new ArrayList<>();
         blockedUsersList = new ArrayList<>();
@@ -82,4 +84,23 @@ public class User {
         followersList.remove(userName);
     }
 
+    public int numOfFollowers(){
+        return followersList.size();
+    }
+
+    public int numOfUsersFollowing(){
+        return followList.size();
+    }
+
+    public int getNumOfPosts() {
+        return numOfPosts;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
 }

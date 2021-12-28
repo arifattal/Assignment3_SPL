@@ -11,6 +11,7 @@ public class Data {
     private List<Message> post_pmList;
     private ConcurrentHashMap<String, User> registeredUsersHM;
     private List<String> filteredWords;
+    private int loggedInUsers;
 
     //implement data as a singleton
     private static class DataHolder{
@@ -24,6 +25,7 @@ public class Data {
         post_pmList = new ArrayList<>();
         registeredUsersHM = new ConcurrentHashMap<>();
         filteredWords = new ArrayList<>();
+        loggedInUsers = 0;
     }
 
     public boolean isRegistered(String username){
@@ -41,4 +43,15 @@ public class Data {
         return registeredUsersHM.get(userName);
     }
 
+    public ConcurrentHashMap<String, User> getRegisteredUsersHM() {
+        return registeredUsersHM;
+    }
+
+    public int getLoggedInUsers() {
+        return loggedInUsers;
+    }
+
+    public void incDecLoggedInUsers(int i){
+        loggedInUsers = loggedInUsers + i;
+    }
 }
