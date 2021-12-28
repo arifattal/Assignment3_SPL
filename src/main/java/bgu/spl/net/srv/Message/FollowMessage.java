@@ -16,19 +16,21 @@ public class FollowMessage extends Message{
     @Override
     public Message runMessage(User user) {
         User otherUser = data.getUser(userName);
-        if (follow == 0) {
+        if (follow == 0) { //follow
             if (otherUser == null || user.getStatus() != User.Status.loggedIn || user.isFollowing(userName)){
                 Message error = new ErrorMessage((short) 11, this.opCode);
                 return error;
             }
             else{
-                user.follow(userName);
-                otherUser.addFollower(user.getUserName());
+                if (!otherUser.isBlocking(user.getUserName())){ //follow otherUser if he isn't blocking me
+                    user.follow(userName);
+                    otherUser.addFollower(user.getUserName());
+                }
                 Message ack = new ACKmessage<>((short) 10, this.opCode, userName);
                 return ack;
             }
         }
-        else{ //follow == 1
+        else{ //unfollow
             if (user.getStatus() != User.Status.loggedIn || !user.isFollowing(userName)){
                 Message error = new ErrorMessage((short) 11, this.opCode);
                 return error;

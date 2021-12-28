@@ -1,7 +1,11 @@
 package bgu.spl.net.srv;
 
+import bgu.spl.net.srv.Message.NotificationMessage;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class User {
     public enum Status{
@@ -17,6 +21,8 @@ public class User {
     private List<String> followList;
     private List<String> followersList;
     private List<String> blockedUsersList; //change this to List<tempUser> if user names are not unique
+    private ConcurrentLinkedQueue<NotificationMessage> notificationsQueue; //this queue is used for accumulating notifications while the user is logged out
+
 
     public User(String userName, String password, String birthday) {
         UserName = userName;
@@ -30,6 +36,7 @@ public class User {
         followList = new ArrayList<>();
         followersList = new ArrayList<>();
         blockedUsersList = new ArrayList<>();
+        notificationsQueue = new ConcurrentLinkedQueue<>();
     }
 
     public String getUserName() {
@@ -103,4 +110,17 @@ public class User {
     public String getBirthday() {
         return birthday;
     }
+
+    public Queue<NotificationMessage> getNotificationsQueue() {
+        return notificationsQueue;
+    }
+
+    public void addNotification(NotificationMessage notification){
+        notificationsQueue.add(notification);
+    }
+
+    public boolean isBlocking(String userName){
+        return blockedUsersList.contains(userName);
+    }
+
 }
