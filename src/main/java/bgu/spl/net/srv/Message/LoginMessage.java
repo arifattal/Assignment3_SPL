@@ -25,7 +25,7 @@ public class LoginMessage extends Message{
         }
         else{
             user.setStatus(User.Status.loggedIn);
-            Data.getInstance().incDecLoggedInUsers(-1); //increment num of logged in users by 1
+            Data.getInstance().incDecLoggedInUsers(1); //increment num of logged in users by 1
             Queue<NotificationMessage> notifications = user.getNotificationsQueue(); //send notifications that have been sent to the user while he was logged out
             while (!notifications.isEmpty()){
                 notifications.poll().runMessage(user);

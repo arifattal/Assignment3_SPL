@@ -11,7 +11,7 @@ public class Data {
     private List<Message> post_pmList;
     private ConcurrentHashMap<String, User> registeredUsersHM;
     private List<String> filteredWords;
-    private int loggedInUsers;
+    private int loggedInUsers; //used for LogStatMessage
 
     //implement data as a singleton
     private static class DataHolder{

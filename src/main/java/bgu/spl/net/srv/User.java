@@ -28,7 +28,7 @@ public class User {
         UserName = userName;
         this.password = password;
         try {
-            this.age = Integer.parseInt(birthday.substring(6));
+            this.age = 2021 - Integer.parseInt(birthday.substring(6));
         }catch (NumberFormatException e){}
         this.birthday = birthday;
         status = Status.loggedOut;

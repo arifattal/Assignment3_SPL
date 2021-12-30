@@ -20,12 +20,13 @@ public class BlockMessage extends Message{
         else{
             if (!user.isBlocking(userName)){ //proceed if the user isn't already blocking otherUser
                 user.block(userName);
-                user.unFollow(userName);
-                user.removeFollower(userName);
-                otherUser.unFollow(user.getUserName());
-                otherUser.removeFollower(user.getUserName());
             }
-            Message ack = new ACKmessage<>((short) 10, this.opCode, "");
+            //Once user blocking acknowledged, both users (the blocking and the blocked) stop following each other
+            //therefore more information is added to the ack message
+            String[] optional = new String[2];
+            optional[0] = user.getUserName();
+            optional[1] = userName;
+            Message ack = new ACKmessage<>((short) 10, this.opCode, optional);
             return ack;
         }
     }
