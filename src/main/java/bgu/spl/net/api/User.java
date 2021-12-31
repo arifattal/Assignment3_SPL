@@ -1,6 +1,6 @@
-package bgu.spl.net.srv;
+package bgu.spl.net.api;
 
-import bgu.spl.net.srv.Message.NotificationMessage;
+import bgu.spl.net.api.Message.NotificationMessage;
 
 import java.util.ArrayList;
 import java.util.List;

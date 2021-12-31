@@ -1,8 +1,7 @@
-package bgu.spl.net.srv.Message;
+package bgu.spl.net.api.Message;
 
-import bgu.spl.net.srv.User;
+import bgu.spl.net.api.User;
 
-import javax.print.DocFlavor;
 import java.util.List;
 
 public class PmMessage extends Message {

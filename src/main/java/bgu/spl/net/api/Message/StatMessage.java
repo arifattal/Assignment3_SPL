@@ -1,7 +1,7 @@
-package bgu.spl.net.srv.Message;
+package bgu.spl.net.api.Message;
 
-import bgu.spl.net.srv.Data;
-import bgu.spl.net.srv.User;
+import bgu.spl.net.api.Data;
+import bgu.spl.net.api.User;
 
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;

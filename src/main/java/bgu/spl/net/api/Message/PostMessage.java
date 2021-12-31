@@ -1,7 +1,6 @@
-package bgu.spl.net.srv.Message;
+package bgu.spl.net.api.Message;
 
-import bgu.spl.net.srv.Data;
-import bgu.spl.net.srv.User;
+import bgu.spl.net.api.User;
 
 import java.util.ArrayList;
 import java.util.List;

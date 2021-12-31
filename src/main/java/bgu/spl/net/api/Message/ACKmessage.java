@@ -1,8 +1,6 @@
-package bgu.spl.net.srv.Message;
+package bgu.spl.net.api.Message;
 
-import bgu.spl.net.srv.User;
-
-import java.util.List;
+import bgu.spl.net.api.User;
 
 public class ACKmessage<T> extends Message{
 
