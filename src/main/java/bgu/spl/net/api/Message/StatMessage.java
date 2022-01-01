@@ -9,11 +9,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class StatMessage extends Message{
     Data data = Data.getInstance();
     String[] userNamesList;
+    String userNamesString;
 
     public StatMessage(short opCode, String userNamesList) {
         this.data = data;
         this.userNamesList = userNamesList.split("\\|"); //create an array of usernames out of the string provided
         this.opCode = opCode;
+        this.userNamesString = userNamesList;
     }
 
     @Override
@@ -58,4 +60,17 @@ public class StatMessage extends Message{
             }
         }
     }
+
+    @Override
+    public String prepareForString() {
+        String str = userNamesString + ';';
+        return str;
+    }
+
+    @Override
+    public short getAdditionalBytes() {
+        return 0;
+    }
+
+
 }

@@ -11,4 +11,16 @@ public abstract class Message {
     public short getOpCode(){
         return opCode;
     }
+
+    /**
+     * @return gets a relevant string from the message structure
+     */
+    public abstract String prepareForString();
+
+    /**
+     * @return some message structures contain an additional short in addition to the opCode
+     * this function returns that short which is used in EncoderDecoder
+     */
+    public abstract short getAdditionalBytes();
+
 }

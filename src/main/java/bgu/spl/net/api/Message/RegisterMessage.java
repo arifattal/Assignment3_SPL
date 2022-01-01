@@ -29,5 +29,16 @@ public class RegisterMessage extends Message{
         }
     }
 
+    @Override
+    public String prepareForString() {
+        String str = username + " " +  password + " " + birthday + ';';
+        return str;
+    }
+
+    @Override
+    public short getAdditionalBytes() {
+        return 0;
+    }
+
 
 }

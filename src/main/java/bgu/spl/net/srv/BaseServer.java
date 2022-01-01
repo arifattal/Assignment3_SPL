@@ -26,9 +26,9 @@ public abstract class BaseServer<T> implements Server<T> {
     }
 
     @Override
-    public void serve() {
+    public void serve() { //runs while the server is on
 
-        try (ServerSocket serverSock = new ServerSocket(port)) {
+        try (ServerSocket serverSock = new ServerSocket(port)) { //try with resources
 			System.out.println("Server started");
 
             this.sock = serverSock; //just to be able to close
@@ -57,5 +57,7 @@ public abstract class BaseServer<T> implements Server<T> {
     }
 
     protected abstract void execute(BlockingConnectionHandler<T>  handler);
+    //in the lesson this is the code we saw:
+    //new Thread(handler).start();
 
 }

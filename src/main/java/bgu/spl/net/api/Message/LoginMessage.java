@@ -34,4 +34,21 @@ public class LoginMessage extends Message{
             return ack;
         }
     }
+
+    @Override
+    public String prepareForString() {
+        String str = userName + " " + password + " ";
+        return str;
+    }
+
+    public short getCaptcha(){
+        return captcha;
+    }
+
+    @Override
+    public short getAdditionalBytes() {
+        return 0;
+    }
+
+
 }

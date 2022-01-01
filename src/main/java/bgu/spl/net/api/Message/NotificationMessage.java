@@ -29,4 +29,17 @@ public class NotificationMessage extends Message{
             return this;
         }
     }
+
+    @Override
+    public String prepareForString() {
+        String str = PostingUser + " " + Content +  ';';
+        return str;
+    }
+
+    @Override
+    public short getAdditionalBytes() {
+        return NotificationType;
+    }
+
+
 }

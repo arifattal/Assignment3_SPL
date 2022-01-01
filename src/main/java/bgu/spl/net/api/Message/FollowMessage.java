@@ -42,6 +42,18 @@ public class FollowMessage extends Message{
                 return ack;
             }
         }
-
     }
+
+    @Override
+    public String prepareForString() {
+        String str = userName + ';';
+        return str;
+    }
+
+    @Override
+    public short getAdditionalBytes() {
+        return follow;
+    }
+
+
 }

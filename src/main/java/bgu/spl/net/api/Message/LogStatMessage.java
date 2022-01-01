@@ -39,4 +39,15 @@ public class LogStatMessage extends Message{
             return ack;
         }
     }
+
+    @Override
+    public String prepareForString() {
+        return "";
+    }
+
+    @Override
+    public short getAdditionalBytes() {
+        return 0;
+    }
+
 }

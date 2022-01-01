@@ -30,7 +30,7 @@ public class BlockingConnectionHandler<T> implements Runnable, bgu.spl.net.srv.b
             in = new BufferedInputStream(sock.getInputStream());
             out = new BufferedOutputStream(sock.getOutputStream());
 
-            while (!protocol.shouldTerminate() && connected && (read = in.read()) >= 0) {
+            while (!protocol.shouldTerminate() && connected && (read = in.read()) >= 0) { //read() returns -1 in case of an error
                 T nextMessage = encdec.decodeNextByte((byte) read);
                 if (nextMessage != null) {
                     T response = protocol.process(nextMessage);

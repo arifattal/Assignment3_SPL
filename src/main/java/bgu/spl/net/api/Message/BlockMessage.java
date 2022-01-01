@@ -4,6 +4,7 @@ import bgu.spl.net.api.User;
 
 public class BlockMessage extends Message{
     String userName;
+    String forString = ""; //this was put here as a work around for encoding. used in the prepareForString function
 
     public BlockMessage(short opCode, String userName) {
         this.opCode = opCode;
@@ -26,8 +27,21 @@ public class BlockMessage extends Message{
             String[] optional = new String[2];
             optional[0] = user.getUserName();
             optional[1] = userName;
+            forString = user.getUserName() + " " + userName;
             Message ack = new ACKmessage<>((short) 10, this.opCode, optional);
             return ack;
         }
     }
+
+    @Override
+    public String prepareForString() {
+        return forString;
+    }
+
+    @Override
+    public short getAdditionalBytes() {
+        return 0;
+    }
+
+
 }

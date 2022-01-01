@@ -23,7 +23,7 @@ public class LineMessageEncoderDecoder implements MessageEncoderDecoder<String> 
 
     @Override
     public byte[] encode(String message) {
-        return (message + "\n").getBytes(); //uses utf8 by default
+        return (message + "\n").getBytes(); //uses utf8 by default - getBytes() is a String function we use in order to encode the string to bytes
     }
 
     private void pushByte(byte nextByte) {

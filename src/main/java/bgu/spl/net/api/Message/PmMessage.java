@@ -44,4 +44,17 @@ public class PmMessage extends Message {
         Message ack = new ACKmessage<>((short) 10, this.opCode, ""); //the pdf doesn't state that an ack needs to be sent but it appears in the example on page 17
         return ack;
     }
+
+    @Override
+    public String prepareForString() {
+        String str = userName + " " +  content + " " + sendTime + ';';
+        return str;
+    }
+
+    @Override
+    public short getAdditionalBytes() {
+        return 0;
+    }
+
+
 }

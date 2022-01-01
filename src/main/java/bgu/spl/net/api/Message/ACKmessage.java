@@ -49,4 +49,17 @@ public class ACKmessage<T> extends Message{
         return this;
     }
 
+    @Override
+    public String prepareForString() {
+        return (optional.toString());
+    }
+
+    @Override
+    public short getAdditionalBytes() {
+        return messageOpcode;
+    }
+
+    public ShortOptional getShortOptional(){
+        return (ShortOptional)optional;
+    }
 }

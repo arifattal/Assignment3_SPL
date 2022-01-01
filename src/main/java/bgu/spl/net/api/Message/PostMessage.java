@@ -67,6 +67,20 @@ public class PostMessage extends Message{
                 notification.runMessage(user1); //running a notification message is different to other messages. here the user sent is the "other user"
             }
         }
-        return this;
+        Message ack = new ACKmessage<>((short) 10, this.opCode, ""); //the pdf doesn't state that an ack needs to be sent but it appears in the example on page 17
+        return ack;
     }
+
+    @Override
+    public String prepareForString() {
+        String str = content + ';';
+        return str;
+    }
+
+    @Override
+    public short getAdditionalBytes() {
+        return 0;
+    }
+
+
 }

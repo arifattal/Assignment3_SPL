@@ -4,10 +4,11 @@ import bgu.spl.net.bidi.BidiMessagingProtocol;
 import bgu.spl.net.bidi.Connections;
 import bgu.spl.net.api.Message.Message;
 
-public class protocol<T> implements BidiMessagingProtocol<T> {
-    User user;
-    Integer connectionId = null;
-    Connections connections = null;
+public class Protocol<T> implements BidiMessagingProtocol<T> {
+    private User user;
+    private Integer connectionId = null;
+    private Connections connections = null;
+    private boolean shouldTerminate = false;
 
     @Override
     public void start(int connectionId, Connections connections) {
@@ -22,7 +23,11 @@ public class protocol<T> implements BidiMessagingProtocol<T> {
 
     @Override
     public boolean shouldTerminate() {
-        return false;
+        return shouldTerminate;
+    }
+
+    public void setShouldTerminate(boolean set){
+        shouldTerminate = set;
     }
 
 }
