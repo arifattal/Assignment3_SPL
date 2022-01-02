@@ -63,7 +63,7 @@ public class PostMessage extends Message{
             }
             data.addPost_pm(this); //add post to the post_pm list
             for (User user1: sendNotificationList){
-                NotificationMessage notification = new NotificationMessage((short)9, (short)1, user.getUserName(), content);
+                NotificationMessage notification = new NotificationMessage((short)9, (char)1, user.getUserName(), content);
                 notification.runMessage(user1); //running a notification message is different to other messages. here the user sent is the "other user"
             }
         }

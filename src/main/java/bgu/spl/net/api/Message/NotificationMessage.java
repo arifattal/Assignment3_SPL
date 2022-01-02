@@ -4,11 +4,11 @@ import bgu.spl.net.api.User;
 
 //note that a notification doesn't send an ACK
 public class NotificationMessage extends Message{
-    private short NotificationType;
+    private char NotificationType;
     String PostingUser;
     String Content;
 
-    public NotificationMessage(short opCode, short notificationType, String postingUser, String content) {
+    public NotificationMessage(short opCode, char notificationType, String postingUser, String content) {
         this.opCode = opCode;
         NotificationType = notificationType;
         PostingUser = postingUser;
@@ -38,7 +38,7 @@ public class NotificationMessage extends Message{
 
     @Override
     public short getAdditionalBytes() {
-        return NotificationType;
+        return 0;
     }
 
 

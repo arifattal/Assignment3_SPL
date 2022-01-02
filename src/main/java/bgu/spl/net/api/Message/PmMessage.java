@@ -38,7 +38,7 @@ public class PmMessage extends Message {
             List<String> filteredWords = data.getFilteredWords();
             content = filterWords(content, filteredWords); //filter out banned words
             data.addPost_pm(this); //add post to the post_pm list
-            NotificationMessage notification = new NotificationMessage((short)9, (short)0, user.getUserName(), content);
+            NotificationMessage notification = new NotificationMessage((short)9, (char)0, user.getUserName(), content);
             notification.runMessage(otherUser); //running a notification message is different to other messages. here the user sent is the "other user"
         }
         Message ack = new ACKmessage<>((short) 10, this.opCode, ""); //the pdf doesn't state that an ack needs to be sent but it appears in the example on page 17

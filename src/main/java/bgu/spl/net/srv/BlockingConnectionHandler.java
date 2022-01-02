@@ -55,6 +55,11 @@ public class BlockingConnectionHandler<T> implements Runnable, bgu.spl.net.srv.b
 
     @Override
     public void send(T msg) {
-
+        if (msg != null){
+            try {
+                out.write(encdec.encode(msg));
+                out.flush();
+            } catch (IOException e) {}
+        }
     }
 }

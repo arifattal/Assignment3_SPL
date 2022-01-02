@@ -9,7 +9,7 @@ import bgu.spl.net.srv.bidi.ConnectionHandler;
 
 public class ConnectionsImpl implements Connections {
 
-    ConcurrentHashMap<Integer, ConnectionHandler> connectionsHM; //maps between a connectionId and a connection handler
+    private ConcurrentHashMap<Integer, ConnectionHandler> connectionsHM; //maps between a connectionId and a connection handler
 
     @Override
     public boolean send(int connectionId, Object msg) {

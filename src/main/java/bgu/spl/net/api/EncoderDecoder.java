@@ -10,7 +10,7 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
 
     private byte[] bytes = new byte[1 << 10];
     private int len = 0;
-//
+
     @Override
     public T decodeNextByte(byte nextByte) {
         if (nextByte == '\n') {
@@ -25,7 +25,6 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
         if (len >= bytes.length) {
             bytes = Arrays.copyOf(bytes, len * 2);
         }
-
         bytes[len++] = nextByte;
     }
 
@@ -33,56 +32,69 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
         if (bytes != null) {
             byte[] opCodeByte = {bytes[0], bytes[1]};
             short opCode = bytesToShort(opCodeByte);
-
+            Message message;
             switch (opCode) {
                 case (1): {
                     ArrayList<String> stringList = getStringArray(bytes, 2, 3);
                     String username = stringList.get(0);
                     String pass = stringList.get(1);
                     String bDay = stringList.get(2);
-                    RegisterMessage register = new RegisterMessage(opCode, username, pass, bDay);
+                    message = new RegisterMessage(opCode, username, pass, bDay);
                 }
                 case (2):{
-                    ArrayList<String> stringList = getStringArray(bytes, 2, 1);
+                    ArrayList<String> stringList = getStringArray(bytes, 2, 2);
                     String username = stringList.get(0);
                     String pass = stringList.get(1);
-                    String bDay = stringList.get(2);
-                    String captcha = new String(bytes, bytes.length-1, 1, StandardCharsets.UTF_8); //the captcha takes one byte and is at the last position
-                    char ch = captcha.charAt(0);
+                    String captchaString = new String(bytes, bytes.length-1, 1, StandardCharsets.UTF_8); //the captcha takes one byte and is at the last position
+                    char captcha = captchaString.charAt(0);
+                    message = new LoginMessage(opCode, username, pass, captcha);
                 }
                 case (3):{
-                    LogOutMessage logOut = new LogOutMessage(opCode);
+                    message = new LogOutMessage(opCode);
                 }
                 case (4):{
-
+                    byte[] followUnfollowByte = {bytes[2]}; //get the extra follow/unfollow byte
+                    String followUnfollowString = new String(followUnfollowByte, 0, 1, StandardCharsets.UTF_8);
+                    char followUnfollow = followUnfollowString.charAt(0);
+                    ArrayList<String> stringList = getStringArray(bytes, 3, 1);
+                    String userName = stringList.get(0);
+                    message = new FollowMessage(opCode, followUnfollow, userName);
                 }
                 case (5):{
                     ArrayList<String> stringList = getStringArray(bytes, 2, 1);
                     String content = stringList.get(0);
-                    PostMessage post = new PostMessage(opCode, content);
+                    message = new PostMessage(opCode, content);
                 }
                 case (6):{
                     ArrayList<String> stringList = getStringArray(bytes, 2, 3);
                     String userName = stringList.get(0);
                     String content = stringList.get(1);
                     String dateAndTime = stringList.get(2);
-                    PmMessage pm = new PmMessage(opCode, userName, content, dateAndTime);
+                    message = new PmMessage(opCode, userName, content, dateAndTime);
                 }
                 case (7):{
-                    LogStatMessage logStat = new LogStatMessage(opCode);
+                    message = new LogStatMessage(opCode);
                 }
                 case (8):{
                     ArrayList<String> stringList = getStringArray(bytes, 2, 1);
                     String userNames = stringList.get(0);
-                    StatMessage stat = new StatMessage(opCode, userNames);
+                    message = new StatMessage(opCode, userNames);
                 }
                 case (9):{
-
+                    byte[] notificationTypeByte = {bytes[2]}; //get additional notification type byte
+                    String notificationTypeString = new String(notificationTypeByte, 0, 1, StandardCharsets.UTF_8); //get the extra follow/unfollow byte
+                    char followUnfollow = notificationTypeString.charAt(0);
+                    ArrayList<String> stringList = getStringArray(bytes, 3, 2);
+                    String postingUser = stringList.get(0);
+                    String content = stringList.get(1);
+                    message = new NotificationMessage(opCode, followUnfollow, postingUser, content);
                 }
-                case (10):{
-
+                case (12):{
+                    ArrayList<String> stringList = getStringArray(bytes, 2, 1);
+                    String userName = stringList.get(0);
+                    message = new BlockMessage(opCode, userName);
                 }
-
+                return message;
             }
         }
         return null;

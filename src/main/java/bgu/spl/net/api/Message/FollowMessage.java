@@ -4,10 +4,10 @@ import bgu.spl.net.api.User;
 
 
 public class FollowMessage extends Message{
-    private short follow;
+    private char follow;
     private String userName;
 
-    public FollowMessage(short opCode, short follow, String userName) {
+    public FollowMessage(short opCode, char follow, String userName) {
         this.opCode = opCode;
         this.follow = follow;
         this.userName = userName;
@@ -52,7 +52,7 @@ public class FollowMessage extends Message{
 
     @Override
     public short getAdditionalBytes() {
-        return follow;
+        return 0;
     }
 
 
