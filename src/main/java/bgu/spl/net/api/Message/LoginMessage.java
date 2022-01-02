@@ -8,9 +8,9 @@ import java.util.Queue;
 public class LoginMessage extends Message{
     private String userName;
     private String password;
-    private short captcha;
+    private char captcha;
 
-    public LoginMessage(short opCode, String userName, String password, short captcha) {
+    public LoginMessage(short opCode, String userName, String password, char captcha) {
         this.opCode = opCode;
         this.userName = userName;
         this.password = password;
@@ -41,7 +41,7 @@ public class LoginMessage extends Message{
         return str;
     }
 
-    public short getCaptcha(){
+    public char getCaptcha(){
         return captcha;
     }
 

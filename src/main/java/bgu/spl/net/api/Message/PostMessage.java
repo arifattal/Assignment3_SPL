@@ -73,7 +73,7 @@ public class PostMessage extends Message{
 
     @Override
     public String prepareForString() {
-        String str = content + ';';
+        String str = content;
         return str;
     }
 

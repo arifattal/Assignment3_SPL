@@ -47,7 +47,7 @@ public class PmMessage extends Message {
 
     @Override
     public String prepareForString() {
-        String str = userName + " " +  content + " " + sendTime + ';';
+        String str = userName + " " +  content + " " + sendTime;
         return str;
     }
 
