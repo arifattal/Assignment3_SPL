@@ -10,7 +10,7 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
 
     private byte[] bytes = new byte[1 << 10];
     private int len = 0;
-
+//
     @Override
     public T decodeNextByte(byte nextByte) {
         if (nextByte == '\n') {
