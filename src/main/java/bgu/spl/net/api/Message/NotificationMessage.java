@@ -36,6 +36,18 @@ public class NotificationMessage extends Message{
         return str;
     }
 
+    public char getNotificationType() {
+        return NotificationType;
+    }
+
+    public String getPostingUser() {
+        return PostingUser;
+    }
+
+    public String getContent() {
+        return Content;
+    }
+
     @Override
     public short getAdditionalBytes() {
         return 0;

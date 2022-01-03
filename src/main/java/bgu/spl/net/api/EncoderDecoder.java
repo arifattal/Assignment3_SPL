@@ -80,15 +80,6 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
                     String userNames = stringList.get(0);
                     message = new StatMessage(opCode, userNames);
                 }
-                case (9):{
-                    byte[] notificationTypeByte = {bytes[2]}; //get additional notification type byte
-                    String notificationTypeString = new String(notificationTypeByte, 0, 1, StandardCharsets.UTF_8); //get the extra follow/unfollow byte
-                    char followUnfollow = notificationTypeString.charAt(0);
-                    ArrayList<String> stringList = getStringArray(bytes, 3, 2);
-                    String postingUser = stringList.get(0);
-                    String content = stringList.get(1);
-                    message = new NotificationMessage(opCode, followUnfollow, postingUser, content);
-                }
                 case (12):{
                     ArrayList<String> stringList = getStringArray(bytes, 2, 1);
                     String userName = stringList.get(0);
@@ -173,6 +164,19 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
         byte[] zeroByte = new byte[]{'\0'};
 
         switch (msg.getOpCode()){
+            case(9):
+            {
+                bytes1 = shortToBytes(msg.getOpCode());
+                char notificationType = ((NotificationMessage)msg).getNotificationType();
+                bytes2 = new byte[]{(byte) notificationType};
+                bytes3 = mergeArrays(bytes1, bytes2);
+                String postingUser = ((NotificationMessage)msg).getPostingUser();
+                bytes4 = mergeArrays(postingUser.getBytes(), zeroByte);
+                String content = ((NotificationMessage)msg).getContent();
+                bytes5 = mergeArrays(content.getBytes(), zeroByte);
+                return mergeArrays(bytes3, bytes4, bytes5);
+            }
+
             case(10):
             {
                 switch (msg.getAdditionalBytes()){
