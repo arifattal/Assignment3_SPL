@@ -23,6 +23,10 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
     private final SocketChannel chan;
     private final Reactor reactor;
 
+    //added
+    private ConnectionsImpl connections = ConnectionsImpl.getInstance();
+    private int connectionId;
+
     public NonBlockingConnectionHandler(
             MessageEncoderDecoder<T> reader,
             BidiMessagingProtocol<T> protocol,
@@ -32,6 +36,9 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
         this.encdec = reader;
         this.protocol = protocol;
         this.reactor = reactor;
+        this.connectionId = connections.getNewConnectionId(); //gets a unique connectionId for this connectionHandler
+        connections.addConnection(connectionId, this); //adds the connection handler to the HM that stores this info in connections
+        protocol.start(connectionId, connections); //start() is essentially the protocol's constructor
     }
 
     public Runnable continueRead() {

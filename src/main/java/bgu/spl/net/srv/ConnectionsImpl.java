@@ -12,6 +12,7 @@ import bgu.spl.net.srv.bidi.ConnectionHandler;
 public class ConnectionsImpl implements Connections {
 
     private ConcurrentHashMap<Integer, ConnectionHandler> connectionsHM; //maps between a connectionId and a connection handler
+    private int provideConId;
 
     //implement connectionImpl as a singleton
     private static class ConnectionsImplHolder{
@@ -23,6 +24,7 @@ public class ConnectionsImpl implements Connections {
 
     private ConnectionsImpl(){
         connectionsHM = new ConcurrentHashMap<>();
+        provideConId = 0;
     }
 
     @Override
@@ -50,5 +52,14 @@ public class ConnectionsImpl implements Connections {
     @Override
     public void disconnect(int connectionId) {
         connectionsHM.remove(connectionId);
+    }
+
+    public void addConnection(int connectionId, ConnectionHandler handler){
+        connectionsHM.put(connectionId, handler);
+    }
+
+    public int getNewConnectionId(){
+        provideConId ++;
+        return provideConId;
     }
 }

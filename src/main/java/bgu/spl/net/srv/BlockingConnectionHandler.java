@@ -17,10 +17,19 @@ public class BlockingConnectionHandler<T> implements Runnable, bgu.spl.net.srv.b
     private BufferedOutputStream out;
     private volatile boolean connected = true;
 
+    //added
+    private ConnectionsImpl connections = ConnectionsImpl.getInstance();
+    private int connectionId;
+
+
+
     public BlockingConnectionHandler(Socket sock, MessageEncoderDecoder<T> reader, BidiMessagingProtocol<T> protocol) {
         this.sock = sock;
         this.encdec = reader;
         this.protocol = protocol;
+        this.connectionId = connections.getNewConnectionId(); //gets a unique connectionId for this connectionHandler
+        connections.addConnection(connectionId, this); //adds the connection handler to the HM that stores this info in connections
+        protocol.start(connectionId, connections); //start() is essentially the protocol's constructor
     }
 
     @Override
