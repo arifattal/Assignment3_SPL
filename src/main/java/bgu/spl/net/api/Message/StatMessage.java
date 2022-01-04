@@ -42,21 +42,28 @@ public class StatMessage extends Message{
                 connections.send(connectionId, error);
             }
             else {
-                short[][] arr = new short[requestedUsersHM.size()][6]; //create a short array with the requested info regarding the users provided
-                int i = 0;
+                //short[][] arr = new short[requestedUsersHM.size()][6]; //create a short array with the requested info regarding the users provided
+                //int i = 0;
                 for (User user1: requestedUsersHM.values()){
-                    //insert relevant info
-                    arr[i][0] = (short)10;
-                    arr[i][1] = this.opCode;
-                    arr[i][2] = (short)user1.getAge();
-                    arr[i][3] = (short)user1.getNumOfPosts();
-                    arr[i][4] = (short)user1.numOfFollowers();
-                    arr[i][5] = (short)user1.numOfUsersFollowing();
-                    i++; //increment i for next user in list
+                    short[] optional = new short[4];
+                    optional[0] = (short)user1.getAge();
+                    optional[1] = (short)user1.getNumOfPosts();
+                    optional[2] = (short)user1.numOfFollowers();
+                    optional[3] = (short)user1.numOfUsersFollowing();
+                    Message ack = new ACKmessage<>((short) 10, this.opCode, optional);
+                    connections.send(connectionId, ack);
+
+//                    //insert relevant info
+//                    arr[i][0] = (short)10;
+//                    arr[i][1] = this.opCode;
+//                    arr[i][2] = (short)user1.getAge();
+//                    arr[i][3] = (short)user1.getNumOfPosts();
+//                    arr[i][4] = (short)user1.numOfFollowers();
+//                    arr[i][5] = (short)user1.numOfUsersFollowing();
+//                    i++; //increment i for next user in list
                 }
-                ACKmessage.ShortOptional optional = new ACKmessage.ShortOptional(arr); //create an optional of type ShortOptional - more info in ACKMessage
-                Message ack = new ACKmessage<>((short) 10, this.opCode, optional);
-                connections.send(connectionId, ack);
+                //ACKmessage.ShortOptional optional = new ACKmessage.ShortOptional(arr); //create an optional of type ShortOptional - more info in ACKMessage
+
             }
         }
     }

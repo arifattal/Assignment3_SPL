@@ -13,8 +13,9 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
 
     @Override
     public T decodeNextByte(byte nextByte) {
-        if (nextByte == '\n') {
+        if (nextByte == ';') {
             Message msgObject = getMessageObj(bytes);
+            len = 0;
             return (T) msgObject;
         }
         pushByte(nextByte); //this function decodes the string
@@ -27,6 +28,7 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
         }
         bytes[len++] = nextByte;
     }
+
 
     private Message getMessageObj(byte[] bytes){
         if (bytes != null) {
@@ -154,7 +156,7 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
     @Override
     public byte[] encode(T message) {
         Message msg = (Message)message; //used for ease due to need for casting
-        String strForBytes = msg.prepareForString();
+        //String strForBytes = msg.prepareForString();
         byte[] bytes1;
         byte[] bytes2;
         byte[] bytes3;
@@ -181,6 +183,7 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
             {
                 switch (msg.getAdditionalBytes()){
                     case(1): case(2): case(4): case(5): case(6): case(12):{
+                        String strForBytes = (String) ((ACKmessage)msg).getOptional();
                         bytes1 = shortToBytes(msg.getOpCode());
                         bytes2 = shortToBytes(msg.getAdditionalBytes());
                         bytes3 = (strForBytes).getBytes();
