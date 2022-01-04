@@ -14,7 +14,7 @@ public class ConnectionsImpl implements Connections {
     private ConcurrentHashMap<Integer, ConnectionHandler> connectionsHM; //maps between a connectionId and a connection handler
     private int provideConId;
 
-    //implement connectionImpl as a singleton
+    //implement connectionsImpl as a singleton
     private static class ConnectionsImplHolder{
         private static ConnectionsImpl instance = new ConnectionsImpl();
     }
