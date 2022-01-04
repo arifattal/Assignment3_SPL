@@ -2,12 +2,15 @@ package bgu.spl.net.api.Message;
 
 import bgu.spl.net.api.Data;
 import bgu.spl.net.api.User;
+import bgu.spl.net.srv.ConnectionsImpl;
 
 public abstract class Message {
 
     protected short opCode;
     protected Data data = Data.getInstance();
-    public abstract Message runMessage(User user);
+    protected ConnectionsImpl connections = ConnectionsImpl.getInstance();
+
+    public abstract void runMessage(User user, int connectionId);
     public short getOpCode(){
         return opCode;
     }

@@ -12,11 +12,11 @@ public class BlockMessage extends Message{
     }
 
     @Override
-    public Message runMessage(User user) {
+    public void runMessage(User user, int connectionId) {
         User otherUser = data.getUser(userName);
         if (otherUser == null){
             Message error = new ErrorMessage((short) 11, this.opCode);
-            return error;
+            connections.send(connectionId, error);
         }
         else{
             if (!user.isBlocking(userName)){ //proceed if the user isn't already blocking otherUser
@@ -29,7 +29,7 @@ public class BlockMessage extends Message{
             optional[1] = userName;
             forString = user.getUserName() + " " + userName;
             Message ack = new ACKmessage<>((short) 10, this.opCode, optional);
-            return ack;
+            connections.send(connectionId, ack);
         }
     }
 

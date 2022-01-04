@@ -11,9 +11,8 @@ public class ErrorMessage extends Message{
     }
 
     @Override
-    public Message runMessage(User user) {
+    public void runMessage(User user, int connectionId) {
         System.out.println("Error " + messageOpcode);
-        return this;
     }
 
     @Override

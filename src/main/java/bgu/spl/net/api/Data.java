@@ -10,6 +10,7 @@ public class Data {
     //change to concurrent structures
     private List<Message> post_pmList;
     private ConcurrentHashMap<String, User> registeredUsersHM;
+    private ConcurrentHashMap<User, Integer> usersClientIdsHM; //this HM maps between users and their client ids
     private List<String> filteredWords;
     private int loggedInUsers; //used for LogStatMessage
 
@@ -35,8 +36,13 @@ public class Data {
         return false;
     }
 
-    public void RegisterUser(User user){
+    public void RegisterUser(User user, int connectionId){
+        usersClientIdsHM.put(user, connectionId);
         registeredUsersHM.put(user.getUserName(), user);
+    }
+
+    public Integer getUserClientId(User user){
+        return usersClientIdsHM.get(user);
     }
 
     public User getUser(String userName){

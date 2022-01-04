@@ -1,7 +1,6 @@
 package bgu.spl.net.srv;
 
 import bgu.spl.net.api.MessageEncoderDecoder;
-import bgu.spl.net.api.MessagingProtocol;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -26,7 +25,7 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
 
     public NonBlockingConnectionHandler(
             MessageEncoderDecoder<T> reader,
-            MessagingProtocol<T> protocol,
+            BidiMessagingProtocol<T> protocol,
             SocketChannel chan,
             Reactor reactor) {
         this.chan = chan;
@@ -47,7 +46,7 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
 
         if (success) {
             buf.flip();
-            return () -> {
+            return () -> { //returns the runnable, in class this was done a little differently, but very similar
                 try {
                     while (buf.hasRemaining()) {
                         T nextMessage = encdec.decodeNextByte(buf.get());

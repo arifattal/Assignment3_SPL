@@ -10,16 +10,16 @@ public class LogOutMessage extends Message{
     }
 
     @Override
-    public Message runMessage(User user) {
+    public void runMessage(User user, int connectionId) {
         if (user.getStatus() != User.Status.loggedIn){
             Message error = new ErrorMessage((short) 11, this.opCode);
-            return error;
+            connections.send(connectionId, error);
         }
         else{
             user.setStatus(User.Status.loggedOut);
             Data.getInstance().incDecLoggedInUsers(-1); //decrement num of logged in users by 1
             Message ack = new ACKmessage<>((short) 10, this.opCode, user.getUserName());
-            return ack;
+            connections.send(connectionId, ack);
         }
     }
 

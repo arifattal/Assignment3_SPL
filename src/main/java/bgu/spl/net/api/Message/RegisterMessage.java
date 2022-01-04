@@ -16,16 +16,20 @@ public class RegisterMessage extends Message{
     }
 
     @Override
-    public Message runMessage(User user) {
+    public void runMessage(User user, int connectionId) {
         if (!data.isRegistered(username)){ //create new user if not registered, and add him to our data structure
-            user = new User(username, password, birthday);
-            data.RegisterUser(user);
+            user.setUserName(username);
+            user.setPassword(password);
+            user.setBirthday(birthday); //this also sets the correct age
+            user.setStatus(User.Status.loggedOut);
+
+            data.RegisterUser(user, connectionId);
             Message ack = new ACKmessage<>((short) 10, this.opCode, "");
-            return ack;
+            connections.send(connectionId, ack);
         }
         else{
             Message error = new ErrorMessage((short) 11, this.opCode);
-            return error;
+            connections.send(connectionId, error);
         }
     }
 

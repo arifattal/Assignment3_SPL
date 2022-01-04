@@ -13,10 +13,10 @@ public class LogStatMessage extends Message{
     }
 
     @Override
-    public Message runMessage(User user) {
+    public void runMessage(User user, int connectionId) {
         if (user.getStatus() != User.Status.loggedIn){ //send error if user is loggedOut or unRegistered
             Message error = new ErrorMessage((short) 11, this.opCode);
-            return error;
+            connections.send(connectionId, error);
         }
         else{
             ConcurrentHashMap<String, User> registeredUsersHM = data.getRegisteredUsersHM();
@@ -36,7 +36,7 @@ public class LogStatMessage extends Message{
             }
             ACKmessage.ShortOptional optional = new ACKmessage.ShortOptional(arr); //create an optional of type ShortOptional - more info in ACKmessage
             Message ack = new ACKmessage<>((short) 10, this.opCode, optional);
-            return ack;
+            connections.send(connectionId, ack);
         }
     }
 

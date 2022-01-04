@@ -14,11 +14,13 @@ public class Protocol<T> implements BidiMessagingProtocol<T> {
     public void start(int connectionId, Connections connections) {
         this.connectionId = connectionId;
         this.connections = connections;
+        //the user is initialized here for convenience, and to avoid nullptrException. this way we don't need to keep making sure that user!=null
+        user = new User("placeTaker", "placeTaker", "placeTaker");
     }
 
     @Override
     public void process(T message) {
-        ((Message)message).runMessage(user);
+        ((Message)message).runMessage(user, this.connectionId);
     }
 
     @Override

@@ -2,6 +2,8 @@ package bgu.spl.net.api;
 
 import bgu.spl.net.api.Message.NotificationMessage;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
@@ -31,7 +33,7 @@ public class User {
             this.age = 2021 - Integer.parseInt(birthday.substring(6));
         }catch (NumberFormatException e){}
         this.birthday = birthday;
-        status = Status.loggedOut;
+        status = Status.unRegistered;
         numOfPosts = 0;
         followList = new ArrayList<>();
         followersList = new ArrayList<>();
@@ -74,6 +76,7 @@ public class User {
     public Queue<NotificationMessage> getNotificationsQueue() {
         return notificationsQueue;
     }
+
 
 
     public void setStatus(Status status) {
@@ -128,4 +131,25 @@ public class User {
         blockedUsersList.add(userName);
     }
 
+    public void setUserName(String userName) {
+        UserName = userName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+        //set age
+        try {
+            LocalDate date = LocalDate.now();
+            int year = Integer.parseInt(birthday.substring(6));
+            int month = Integer.parseInt(birthday.substring(3,5));
+            int day = Integer.parseInt(birthday.substring(0,2));
+            LocalDate birth = LocalDate.of(year, month, day);
+            this.age = Period.between(birth, date).getYears();
+        }catch (NumberFormatException e){} //this covers NumberFormatException and exceptions thrown by the date functions. for ex. if month = 13
+
+    }
 }

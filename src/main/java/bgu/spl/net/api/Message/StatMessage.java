@@ -19,10 +19,10 @@ public class StatMessage extends Message{
     }
 
     @Override
-    public Message runMessage(User user) {
+    public void runMessage(User user, int connectionId) {
         if (user.getStatus() != User.Status.loggedIn){ //send error if user is loggedOut or unRegistered
             Message error = new ErrorMessage((short) 11, this.opCode);
-            return error;
+            connections.send(connectionId, error);
         }
         else{
             boolean sendError = false; //this flag is used to stop the action if one of the users requested is not registered
@@ -39,7 +39,7 @@ public class StatMessage extends Message{
             }
             if (sendError){ //if an unregistered user was found in the list provided send an error
                 Message error = new ErrorMessage((short) 11, this.opCode);
-                return error;
+                connections.send(connectionId, error);
             }
             else {
                 short[][] arr = new short[requestedUsersHM.size()][6]; //create a short array with the requested info regarding the users provided
@@ -56,7 +56,7 @@ public class StatMessage extends Message{
                 }
                 ACKmessage.ShortOptional optional = new ACKmessage.ShortOptional(arr); //create an optional of type ShortOptional - more info in ACKMessage
                 Message ack = new ACKmessage<>((short) 10, this.opCode, optional);
-                return ack;
+                connections.send(connectionId, ack);
             }
         }
     }

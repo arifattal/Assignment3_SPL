@@ -18,20 +18,20 @@ public class LoginMessage extends Message{
     }
 
     @Override
-    public Message runMessage(User user) {
+    public void runMessage(User user, int connectionId) {
         if (user.getStatus() != User.Status.loggedOut|| !user.getPassword().equals(password) || captcha == 0){
             Message error = new ErrorMessage((short) 11, this.opCode);
-            return error;
+            connections.send(connectionId, error);
         }
         else{
             user.setStatus(User.Status.loggedIn);
             Data.getInstance().incDecLoggedInUsers(1); //increment num of logged in users by 1
             Queue<NotificationMessage> notifications = user.getNotificationsQueue(); //send notifications that have been sent to the user while he was logged out
             while (!notifications.isEmpty()){
-                notifications.poll().runMessage(user);
+                notifications.poll().runMessage(user, connectionId);
             }
             Message ack = new ACKmessage<>((short) 10, this.opCode, "");
-            return ack;
+            connections.send(connectionId, ack);
         }
     }
 

@@ -37,7 +37,7 @@ public class ACKmessage<T> extends Message{
     }
 
     @Override
-    public Message runMessage(User user) {
+    public void runMessage(User user, int connectionId) {
         //the ACKMessage is printed differently for LOGSTAT and STAT. mainly because of the print structure seen in the else, which adds '"ACK " + messageOpcode'
         if (optional instanceof ShortOptional){
             String string = optional.toString();
@@ -46,7 +46,6 @@ public class ACKmessage<T> extends Message{
         else{
         System.out.println("ACK " + messageOpcode + optional.toString());
         }
-        return this;
     }
 
     @Override

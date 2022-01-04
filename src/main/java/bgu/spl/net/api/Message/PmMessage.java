@@ -24,25 +24,26 @@ public class PmMessage extends Message {
     }
 
     @Override
-    public Message runMessage(User user) {
+    public void runMessage(User user, int connectionId) {
         if (user.getStatus() != User.Status.loggedIn){
             Message error = new ErrorMessage((short) 11, this.opCode);
-            return error;
+            connections.send(connectionId, error);
         }
         User otherUser = data.getUser(userName);
         if (otherUser == null || otherUser.getStatus() == User.Status.unRegistered || otherUser.isBlocking(user.getUserName())){
             Message error = new ErrorMessage((short) 11, this.opCode);
-            return error;
+            connections.send(connectionId, error);
         }
         else{
             List<String> filteredWords = data.getFilteredWords();
             content = filterWords(content, filteredWords); //filter out banned words
             data.addPost_pm(this); //add post to the post_pm list
             NotificationMessage notification = new NotificationMessage((short)9, (char)0, user.getUserName(), content);
-            notification.runMessage(otherUser); //running a notification message is different to other messages. here the user sent is the "other user"
+            int otherUserClientId = data.getUserClientId(otherUser);
+            notification.runMessage(otherUser, otherUserClientId); //running a notification message is different to other messages. here the user sent is the "other user"
         }
         Message ack = new ACKmessage<>((short) 10, this.opCode, ""); //the pdf doesn't state that an ack needs to be sent but it appears in the example on page 17
-        return ack;
+        connections.send(connectionId, ack);
     }
 
     @Override

@@ -16,17 +16,15 @@ public class NotificationMessage extends Message{
     }
 
     @Override
-    public Message runMessage(User user) {
+    public void runMessage(User user, int connectionId) {
         if (user.getStatus() != User.Status.loggedIn){ //if the user we would like to send a notification to is logged out save the notification to his notification queue
             user.addNotification(this);
-            return null;
         }
         else {
             if (NotificationType == 0)
                 System.out.println("NOTIFICATION " + "PM " + PostingUser + " " + Content);
             else
                 System.out.println("NOTIFICATION " + "Public " + PostingUser + " " + Content);
-            return this;
         }
     }
 

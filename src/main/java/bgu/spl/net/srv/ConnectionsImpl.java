@@ -1,7 +1,9 @@
 package bgu.spl.net.srv;
 
+import bgu.spl.net.api.Data;
 import bgu.spl.net.api.Message.Message;
 
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import bgu.spl.net.bidi.Connections;
@@ -10,6 +12,18 @@ import bgu.spl.net.srv.bidi.ConnectionHandler;
 public class ConnectionsImpl implements Connections {
 
     private ConcurrentHashMap<Integer, ConnectionHandler> connectionsHM; //maps between a connectionId and a connection handler
+
+    //implement connectionImpl as a singleton
+    private static class ConnectionsImplHolder{
+        private static ConnectionsImpl instance = new ConnectionsImpl();
+    }
+    public static ConnectionsImpl getInstance(){
+        return ConnectionsImplHolder.instance;
+    }
+
+    private ConnectionsImpl(){
+        connectionsHM = new ConcurrentHashMap<>();
+    }
 
     @Override
     public boolean send(int connectionId, Object msg) {

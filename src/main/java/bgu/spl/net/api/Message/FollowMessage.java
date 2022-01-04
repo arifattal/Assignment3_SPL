@@ -14,12 +14,12 @@ public class FollowMessage extends Message{
     }
 
     @Override
-    public Message runMessage(User user) {
+    public void runMessage(User user, int connectionId) {
         User otherUser = data.getUser(userName);
         if (follow == 0) { //follow
             if (otherUser == null || user.getStatus() != User.Status.loggedIn || user.isFollowing(userName)){
                 Message error = new ErrorMessage((short) 11, this.opCode);
-                return error;
+                connections.send(connectionId, error);
             }
             else{
                 if (!otherUser.isBlocking(user.getUserName())){ //follow otherUser if he isn't blocking me
@@ -27,19 +27,19 @@ public class FollowMessage extends Message{
                     otherUser.addFollower(user.getUserName());
                 }
                 Message ack = new ACKmessage<>((short) 10, this.opCode, userName);
-                return ack;
+                connections.send(connectionId, ack);
             }
         }
         else{ //unfollow
             if (user.getStatus() != User.Status.loggedIn || !user.isFollowing(userName)){
                 Message error = new ErrorMessage((short) 11, this.opCode);
-                return error;
+                connections.send(connectionId, error);
             }
             else{
                 user.unFollow(userName);
                 otherUser.removeFollower(user.getUserName());
                 Message ack = new ACKmessage<>((short) 10, this.opCode, userName);
-                return ack;
+                connections.send(connectionId, ack);
             }
         }
     }
