@@ -23,7 +23,7 @@ public class LogStatMessage extends Message{
             //short[][] arr = new short[data.getLoggedInUsers()][6]; //create a short array with the requested info regarding logged in users
             //int i = 0;
             for (User user1: registeredUsersHM.values()){
-                if (user1.getStatus() == User.Status.loggedIn){
+                if (user1.getStatus() == User.Status.loggedIn && !user.isBlocking(user1.getUserName()) && !user1.isBlocking(user.getUserName())){
                     short[] optional = new short[4];
                     optional[0] = (short)user1.getAge();
                     optional[1] = (short)user1.getNumOfPosts();

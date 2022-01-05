@@ -27,7 +27,7 @@ public class BlockMessage extends Message{
             String[] optional = new String[2];
             optional[0] = user.getUserName();
             optional[1] = userName;
-            forString = user.getUserName() + " " + userName;
+            //forString = user.getUserName() + " " + userName;
             Message ack = new ACKmessage<>((short) 10, this.opCode, optional);
             connections.send(connectionId, ack);
         }

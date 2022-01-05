@@ -20,24 +20,23 @@ public class StatMessage extends Message{
 
     @Override
     public void runMessage(User user, int connectionId) {
+        boolean sendError = false; //this flag is used to stop the action due to reasons provided in the pdf
         if (user.getStatus() != User.Status.loggedIn){ //send error if user is loggedOut or unRegistered
-            Message error = new ErrorMessage((short) 11, this.opCode);
-            connections.send(connectionId, error);
+            sendError = true;
         }
-        else{
-            boolean sendError = false; //this flag is used to stop the action if one of the users requested is not registered
             ConcurrentHashMap<String, User> registeredUsersHM = data.getRegisteredUsersHM();
             HashMap<String, User> requestedUsersHM = new HashMap<>(); //this HM will hold all user objects requested
             for (int i = 0; i<userNamesList.length && !sendError; i++){ //create the requestedUsersHM
                 User user1 = registeredUsersHM.get(userNamesList[i]);
-                if (user1 == null || user1.getStatus() == User.Status.unRegistered){ //we will want to send an error if any of the users requested isn't registered
+                //if (user1.getStatus() == User.Status.loggedIn && !user.isBlocking(user1.getUserName()) && !user1.isBlocking(user.getUserName())){
+                if (user1 == null || user1.getStatus() == User.Status.unRegistered || user.isBlocking(user1.getUserName()) || user1.isBlocking(user.getUserName())){ //we will want to send an error if any of the described holds true
                     sendError = true;
                 }
                 else {
                     requestedUsersHM.put(userNamesList[i], user1); //add user
                 }
             }
-            if (sendError){ //if an unregistered user was found in the list provided send an error
+            if (sendError){
                 Message error = new ErrorMessage((short) 11, this.opCode);
                 connections.send(connectionId, error);
             }
@@ -66,7 +65,6 @@ public class StatMessage extends Message{
 
             }
         }
-    }
 
     @Override
     public String prepareForString() {

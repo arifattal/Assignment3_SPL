@@ -182,7 +182,7 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
             case(10):
             {
                 switch (msg.getAdditionalBytes()){
-                    case(1): case(2): case(4): case(5): case(6): case(12):{
+                    case(1): case(2): case(4): case(5): case(6): {
                         String strForBytes = (String) ((ACKmessage)msg).getOptional();
                         bytes1 = shortToBytes(msg.getOpCode());
                         bytes2 = shortToBytes(msg.getAdditionalBytes());
@@ -204,6 +204,15 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
                             j = j+2;
                         }
                         return mergeArrays(bytes1, bytes2, bytes3);
+                    }
+                    case(12):{
+                        bytes1 = shortToBytes(msg.getOpCode());
+                        bytes2 = shortToBytes(msg.getAdditionalBytes());
+                        String[] additionalString = (String[]) ((ACKmessage)msg).getOptional(); //at index 0 - the user blocking, at index 1 - the user being blocked
+                        bytes3 = mergeArrays(additionalString[0].getBytes(), zeroByte);
+                        bytes4 = mergeArrays(additionalString[1].getBytes(), zeroByte);
+                        bytes5 = mergeArrays(bytes3, bytes4);
+                        return mergeArrays(bytes1, bytes2, bytes5);
                     }
                 }
             }
