@@ -18,7 +18,7 @@ public abstract class Message {
     /**
      * @return gets a relevant string from the message structure
      */
-    public abstract String prepareForString();
+    public abstract String prepareForString(); //as for now we decided not to use this function, can be deleted if we see no use for it
 
     /**
      * @return some message structures contain an additional short in addition to the opCode

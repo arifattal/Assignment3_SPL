@@ -15,10 +15,10 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
     public T decodeNextByte(byte nextByte) {
         if (nextByte == ';') {
             Message msgObject = getMessageObj(bytes);
-            len = 0;
+            len = 0; //this is our method of clearing the bytes array. If it causes issues for some reason create a new bytes array instead
             return (T) msgObject;
         }
-        pushByte(nextByte); //this function decodes the string
+        pushByte(nextByte); //this function adds bytes
         return null;
     }
 
@@ -191,8 +191,19 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
                         bytes5 = mergeArrays(bytes3, zeroByte);
                         return mergeArrays(bytes4, bytes5);
                     }
-                    case(7): case(8): { //complete this
-
+                    case(7): case(8): { //stat messages
+                        bytes1 = shortToBytes(msg.getOpCode());
+                        bytes2 = shortToBytes(msg.getAdditionalBytes());
+                        short[] additionalShorts = (short[]) ((ACKmessage)msg).getOptional();
+                        bytes3 = new byte[8]; //there are 4 additional shorts, therefore they will be represented by 8 bytes
+                        int j = 0;
+                        for (int i=0; i<additionalShorts.length; i++){ //create an byte array from the 4 additional shorts
+                            byte[] shortsToBytes = shortToBytes(additionalShorts[i]);
+                            bytes3[j] = shortsToBytes[0];
+                            bytes3[j+1] = shortsToBytes[1];
+                            j = j+2;
+                        }
+                        return mergeArrays(bytes1, bytes2, bytes3);
                     }
                 }
             }
