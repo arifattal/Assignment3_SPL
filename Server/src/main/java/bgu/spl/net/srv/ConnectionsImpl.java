@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import bgu.spl.net.bidi.Connections;
-import bgu.spl.net.srv.bidi.ConnectionHandler;
+import bgu.spl.net.srv.ConnectionHandler;
 
 public class ConnectionsImpl implements Connections {
 
