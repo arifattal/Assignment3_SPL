@@ -17,7 +17,7 @@ public class RegisterMessage extends Message{
 
     @Override
     public void runMessage(User user, int connectionId) {
-        if (!data.isRegistered(username)){ //create new user if not registered, and add him to our data structure
+        if (!data.isRegistered(username) && !data.handlerHasUser(connectionId)){ //create new user if not registered, and if the connection handler doesn't have a user, and add him to our data structure
             user.setUserName(username);
             user.setPassword(password);
             user.setBirthday(birthday); //this also sets the correct age

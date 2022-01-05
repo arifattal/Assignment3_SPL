@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Data {
     private final Object post_pmLock = new Object();
+
     private List<Message> post_pmList; //change to concurrent structure
     private ConcurrentHashMap<String, User> registeredUsersHM;
     private ConcurrentHashMap<User, Integer> usersClientIdsHM; //this HM maps between users and their client ids
@@ -31,7 +32,7 @@ public class Data {
 
 
     public boolean isRegistered(String username){
-        if (registeredUsersHM.contains(username)){
+        if (registeredUsersHM.containsKey(username)){
             return true;
         }
         return false;
@@ -71,4 +72,9 @@ public class Data {
             post_pmList.add(message);
         }
     }
+
+    public boolean handlerHasUser(int connectionId){ //this returns true if the connection handler has a user in the system
+        return usersClientIdsHM.contains(connectionId);
+    }
+
 }
