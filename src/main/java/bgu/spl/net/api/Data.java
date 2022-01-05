@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Data {
-    //change to concurrent structures
-    private List<Message> post_pmList;
+    private final Object post_pmLock = new Object();
+    private List<Message> post_pmList; //change to concurrent structure
     private ConcurrentHashMap<String, User> registeredUsersHM;
     private ConcurrentHashMap<User, Integer> usersClientIdsHM; //this HM maps between users and their client ids
     private List<String> filteredWords;
@@ -28,6 +28,7 @@ public class Data {
         filteredWords = new ArrayList<>();
         loggedInUsers = 0;
     }
+
 
     public boolean isRegistered(String username){
         if (registeredUsersHM.contains(username)){
@@ -66,6 +67,8 @@ public class Data {
     }
 
     public void addPost_pm(Message message){
-        post_pmList.add(message);
+        synchronized (post_pmLock) {
+            post_pmList.add(message);
+        }
     }
 }

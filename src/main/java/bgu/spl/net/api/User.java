@@ -53,15 +53,15 @@ public class User {
         return status;
     }
 
-    public List<String> getFollowList() {
+    public synchronized List<String> getFollowList() {
         return followList;
     }
 
-    public List<String> getFollowersList() {
+    public synchronized List<String> getFollowersList() {
         return followersList;
     }
 
-    public List<String> getBlockedUsersList() {
+    public synchronized List<String> getBlockedUsersList() {
         return blockedUsersList;
     }
 
@@ -91,27 +91,27 @@ public class User {
         return followersList.contains(userName);
     }
 
-    public void follow(String userName){
+    public synchronized void follow(String userName){
         followList.add(userName);
     }
 
-    public void unFollow(String userName){
+    public synchronized void unFollow(String userName){
         followList.remove(userName);
     }
 
-    public void addFollower(String userName){
+    public synchronized void addFollower(String userName){
         followersList.add(userName);
     }
 
-    public void removeFollower(String userName){
+    public synchronized void removeFollower(String userName){
         followersList.remove(userName);
     }
 
-    public int numOfFollowers(){
+    public synchronized int numOfFollowers(){
         return followersList.size();
     }
 
-    public int numOfUsersFollowing(){
+    public synchronized int numOfUsersFollowing(){
         return followList.size();
     }
 
@@ -119,15 +119,15 @@ public class User {
         return numOfPosts;
     }
 
-    public void addNotification(NotificationMessage notification){
+    public synchronized void addNotification(NotificationMessage notification){
         notificationsQueue.add(notification);
     }
 
-    public boolean isBlocking(String userName){
+    public synchronized boolean isBlocking(String userName){
         return blockedUsersList.contains(userName);
     }
 
-    public void block(String userName){
+    public synchronized void block(String userName){
         blockedUsersList.add(userName);
     }
 
