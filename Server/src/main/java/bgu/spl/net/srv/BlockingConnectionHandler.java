@@ -8,7 +8,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class BlockingConnectionHandler<T> implements Runnable, bgu.spl.net.srv.bidi.ConnectionHandler<T> {
+public class BlockingConnectionHandler<T> implements Runnable, bgu.spl.net.srv.ConnectionHandler<T> {
 
     private final BidiMessagingProtocol<T> protocol;
     private final MessageEncoderDecoder<T> encdec;
