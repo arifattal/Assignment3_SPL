@@ -33,8 +33,7 @@ public class TestingClass {
         }
         for (byte element:bytes3){
             System.out.println(element);
+            System.out.println("hi");
         }
-
-
     }
 }

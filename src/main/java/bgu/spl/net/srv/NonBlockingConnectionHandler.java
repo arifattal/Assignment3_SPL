@@ -10,7 +10,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import bgu.spl.net.bidi.BidiMessagingProtocol;
-import bgu.spl.net.srv.bidi.ConnectionHandler;
+import bgu.spl.net.srv.ConnectionHandler;
 
 public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
 
