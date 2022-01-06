@@ -68,7 +68,7 @@ public class Reactor<T> implements Server<T> {
                 selector.selectedKeys().clear(); //clear the selected keys set so that we can know about new events
 
             }
-
+//
         } catch (ClosedSelectorException ex) {
             //do nothing - server was requested to be closed
         } catch (IOException ex) {

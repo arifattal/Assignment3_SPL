@@ -30,7 +30,9 @@ bool ConnectionHandler::connect() {
     }
     return true;
 }
- 
+
+//bytes - array to fill
+//bytesToRead - amount of bytes to read
 bool ConnectionHandler::getBytes(char bytes[], unsigned int bytesToRead) {
     size_t tmp = 0;
 	boost::system::error_code error;
