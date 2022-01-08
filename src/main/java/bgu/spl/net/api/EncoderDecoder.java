@@ -14,7 +14,13 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
     @Override
     public T decodeNextByte(byte nextByte) {
         if (nextByte == ';') {
-            Message msgObject = getMessageObj(bytes);
+            String messageReceived = new String(bytes, 0, len, StandardCharsets.UTF_8);
+            String stringArray[] = messageReceived.split(" ");
+//            for (String str : stringArray){
+//                System.out.println(str);
+//            }
+            Message msgObject = getMessageObj(stringArray);
+            //Message msgObject = getMessageObj(bytes);
             len = 0; //this is our method of clearing the bytes array. If it causes issues for some reason create a new bytes array instead
             return (T) msgObject;
         }
@@ -29,6 +35,22 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
         bytes[len++] = nextByte;
     }
 
+    private Message getMessageObj(String[] stringArray){
+        if (stringArray != null){
+            Message message;
+            if (stringArray[0].equals("REGISTER")){
+                //System.out.println("register message received, nice (:");
+                short opCode = 1;
+                String username = stringArray[1];
+                String pass = stringArray[2];
+                String bDay = stringArray[3];
+                message = new RegisterMessage(opCode, username, pass, bDay);
+                return message;
+            }
+        }
+        return null;
+    }
+
 
     private Message getMessageObj(byte[] bytes){
         if (bytes != null) {
@@ -37,6 +59,7 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
             Message message;
             switch (opCode) {
                 case (1): {
+                    System.out.println("register message received, nice (:");
                     ArrayList<String> stringList = getStringArray(bytes, 2, 3);
                     String username = stringList.get(0);
                     String pass = stringList.get(1);
@@ -183,6 +206,7 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
             {
                 switch (msg.getAdditionalBytes()){
                     case(1): case(2): case(4): case(5): case(6): {
+                        //return "ack 1".getBytes();
                         String strForBytes = (String) ((ACKmessage)msg).getOptional();
                         bytes1 = shortToBytes(msg.getOpCode());
                         bytes2 = shortToBytes(msg.getAdditionalBytes());

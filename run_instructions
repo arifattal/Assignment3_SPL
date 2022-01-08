@@ -1,0 +1,21 @@
+//How to start server(for now without maven)
+run Main with the following arguments:
+args[0] = 1 / 2 - 1 for tpc design and 2 for reactor design:
+tpc design:
+args[1] = port - this is the server's port, use 7777 for example
+reactor design:
+args[1] = number of threads
+args[2] = port
+192
+example1: 1 7777
+example2: 2 3 7777
+
+//how to start client(with makeFile and Ari's computer connected to Caesarea wifi)
+1. build project using "make"
+2. run project using "bin/BGSclient 192.168.1.26 7777"
+explanation:
+argv[0] = program name
+argv[1] = server's ip
+argv[2] = server's port
+
+

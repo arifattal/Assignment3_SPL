@@ -26,6 +26,7 @@ public class Data {
     private Data(){
         post_pmList = new ArrayList<>();
         registeredUsersHM = new ConcurrentHashMap<>();
+        usersClientIdsHM = new ConcurrentHashMap<>();
         filteredWords = new ArrayList<>();
         loggedInUsers = 0;
     }
