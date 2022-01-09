@@ -2,7 +2,6 @@ package bgu.spl.net.api;
 
 import bgu.spl.net.api.Message.*;
 
-import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -271,116 +270,94 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
         switch (msg.getOpCode()){
             case(9): //notification
             {
-
-            }
-            case(10):{ //ack
-                switch(msg.getAdditionalBytes()){
-                    case(1):{
-
-                    }
-                    case(2):{
-
-                    }
-                    case(3):{
-
-                    }
-                    case(4):{
-
-                    }
-                    case(5):{
-
-                    }
-                    case(6):{
-
-                    }
-                    case(12):{
-
-                    }
-                }
-            }
-            case(11):{ //error
-                String str = "error " + msg.getAdditionalBytes() + '\n';
+                String str = "NOTIFICATION " + msg.prepareForString()+ '\n';
                 return str.getBytes();
             }
-
+            case(10):{ //ack
+                String str = "ACK " + msg.getAdditionalBytes() + '\n';
+                return str.getBytes();
             }
-
+            case(11):{ //error
+                String str = "ERROR " + msg.getAdditionalBytes() + '\n';
+                return str.getBytes();
+            }
+            }
         return null;
     }
 
-    @Override
-    public byte[] encode(T message) {
-        Message msg = (Message)message; //used for ease due to need for casting
-        //String strForBytes = msg.prepareForString();
-        byte[] bytes1;
-        byte[] bytes2;
-        byte[] bytes3;
-        byte[] bytes4;
-        byte[] bytes5;
-        byte[] bytes6;
-        byte[] zeroByte = new byte[]{'\0'};
-
-        switch (msg.getOpCode()){
-            case(9):
-            {
-                bytes1 = shortToBytes(msg.getOpCode());
-                char notificationType = ((NotificationMessage)msg).getNotificationType();
-                bytes2 = new byte[]{(byte) notificationType};
-                bytes3 = mergeArrays(bytes1, bytes2);
-                String postingUser = ((NotificationMessage)msg).getPostingUser();
-                bytes4 = mergeArrays(postingUser.getBytes(), zeroByte);
-                String content = ((NotificationMessage)msg).getContent();
-                bytes5 = mergeArrays(content.getBytes(), zeroByte);
-                return mergeArrays(bytes3, bytes4, bytes5);
-            }
-
-            case(10):
-            {
-                switch (msg.getAdditionalBytes()){
-                    case(1): case(2): case(4): case(5): case(6): {
-                        //return "ack 1".getBytes();
-                        String strForBytes = (String) ((ACKmessage)msg).getOptional();
-                        bytes1 = shortToBytes(msg.getOpCode());
-                        bytes2 = shortToBytes(msg.getAdditionalBytes());
-                        bytes3 = (strForBytes).getBytes();
-                        bytes4 = mergeArrays(bytes1, bytes2);
-                        bytes5 = mergeArrays(bytes3, zeroByte);
-                        return mergeArrays(bytes4, bytes5);
-                    }
-                    case(7): case(8): { //stat messages
-                        bytes1 = shortToBytes(msg.getOpCode());
-                        bytes2 = shortToBytes(msg.getAdditionalBytes());
-                        short[] additionalShorts = (short[]) ((ACKmessage)msg).getOptional();
-                        bytes3 = new byte[8]; //there are 4 additional shorts, therefore they will be represented by 8 bytes
-                        int j = 0;
-                        for (int i=0; i<additionalShorts.length; i++){ //create an byte array from the 4 additional shorts
-                            byte[] shortsToBytes = shortToBytes(additionalShorts[i]);
-                            bytes3[j] = shortsToBytes[0];
-                            bytes3[j+1] = shortsToBytes[1];
-                            j = j+2;
-                        }
-                        return mergeArrays(bytes1, bytes2, bytes3);
-                    }
-                    case(12):{
-                        bytes1 = shortToBytes(msg.getOpCode());
-                        bytes2 = shortToBytes(msg.getAdditionalBytes());
-                        String[] additionalString = (String[]) ((ACKmessage)msg).getOptional(); //at index 0 - the user blocking, at index 1 - the user being blocked
-                        bytes3 = mergeArrays(additionalString[0].getBytes(), zeroByte);
-                        bytes4 = mergeArrays(additionalString[1].getBytes(), zeroByte);
-                        bytes5 = mergeArrays(bytes3, bytes4);
-                        return mergeArrays(bytes1, bytes2, bytes5);
-                    }
-                }
-            }
-            case(11):
-            {
-                bytes1 = shortToBytes(msg.getOpCode());
-                bytes2 = shortToBytes(msg.getAdditionalBytes());
-                return mergeArrays(bytes1, bytes2, zeroByte);
-            }
-        }
-        return null;
-    }
+//    @Override
+//    public byte[] encode(T message) {
+//        Message msg = (Message)message; //used for ease due to need for casting
+//        //String strForBytes = msg.prepareForString();
+//        byte[] bytes1;
+//        byte[] bytes2;
+//        byte[] bytes3;
+//        byte[] bytes4;
+//        byte[] bytes5;
+//        byte[] bytes6;
+//        byte[] zeroByte = new byte[]{'\0'};
+//
+//        switch (msg.getOpCode()){
+//            case(9):
+//            {
+//                bytes1 = shortToBytes(msg.getOpCode());
+//                char notificationType = ((NotificationMessage)msg).getNotificationType();
+//                bytes2 = new byte[]{(byte) notificationType};
+//                bytes3 = mergeArrays(bytes1, bytes2);
+//                String postingUser = ((NotificationMessage)msg).getPostingUser();
+//                bytes4 = mergeArrays(postingUser.getBytes(), zeroByte);
+//                String content = ((NotificationMessage)msg).getContent();
+//                bytes5 = mergeArrays(content.getBytes(), zeroByte);
+//                return mergeArrays(bytes3, bytes4, bytes5);
+//            }
+//
+//            case(10):
+//            {
+//                switch (msg.getAdditionalBytes()){
+//                    case(1): case(2): case(4): case(5): case(6): {
+//                        //return "ack 1".getBytes();
+//                        String strForBytes = (String) ((ACKmessage)msg).getOptional();
+//                        bytes1 = shortToBytes(msg.getOpCode());
+//                        bytes2 = shortToBytes(msg.getAdditionalBytes());
+//                        bytes3 = (strForBytes).getBytes();
+//                        bytes4 = mergeArrays(bytes1, bytes2);
+//                        bytes5 = mergeArrays(bytes3, zeroByte);
+//                        return mergeArrays(bytes4, bytes5);
+//                    }
+//                    case(7): case(8): { //stat messages
+//                        bytes1 = shortToBytes(msg.getOpCode());
+//                        bytes2 = shortToBytes(msg.getAdditionalBytes());
+//                        short[] additionalShorts = (short[]) ((ACKmessage)msg).getOptional();
+//                        bytes3 = new byte[8]; //there are 4 additional shorts, therefore they will be represented by 8 bytes
+//                        int j = 0;
+//                        for (int i=0; i<additionalShorts.length; i++){ //create an byte array from the 4 additional shorts
+//                            byte[] shortsToBytes = shortToBytes(additionalShorts[i]);
+//                            bytes3[j] = shortsToBytes[0];
+//                            bytes3[j+1] = shortsToBytes[1];
+//                            j = j+2;
+//                        }
+//                        return mergeArrays(bytes1, bytes2, bytes3);
+//                    }
+//                    case(12):{
+//                        bytes1 = shortToBytes(msg.getOpCode());
+//                        bytes2 = shortToBytes(msg.getAdditionalBytes());
+//                        String[] additionalString = (String[]) ((ACKmessage)msg).getOptional(); //at index 0 - the user blocking, at index 1 - the user being blocked
+//                        bytes3 = mergeArrays(additionalString[0].getBytes(), zeroByte);
+//                        bytes4 = mergeArrays(additionalString[1].getBytes(), zeroByte);
+//                        bytes5 = mergeArrays(bytes3, bytes4);
+//                        return mergeArrays(bytes1, bytes2, bytes5);
+//                    }
+//                }
+//            }
+//            case(11):
+//            {
+//                bytes1 = shortToBytes(msg.getOpCode());
+//                bytes2 = shortToBytes(msg.getAdditionalBytes());
+//                return mergeArrays(bytes1, bytes2, zeroByte);
+//            }
+//        }
+//        return null;
+//    }
 
     /**
      * an auxiliary function that merges between two byte arrays

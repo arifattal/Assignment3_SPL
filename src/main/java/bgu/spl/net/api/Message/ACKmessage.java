@@ -50,7 +50,29 @@ public class ACKmessage<T> extends Message{
 
     @Override
     public String prepareForString() {
-        return (optional.toString());
+        switch(messageOpcode){
+            case(1): case(2): case(3): case(5): case(6):
+                return "";
+            case(4):{
+                return " " + (String)optional;
+            }
+            case(7): case(8):{
+                short[] optionalArray = (short[])optional;
+                String str = "";
+                if (optionalArray.length>3){
+                    str = " " + optionalArray[0] + " " + optionalArray[1] + " " + optionalArray[2] + " " +  optionalArray[3];
+                }
+            }
+            case(12):{
+                String[] optionalArray = (String[])optional;
+                String str = " ";
+                if (optionalArray.length > 1) {
+                    str = optionalArray[0] + optionalArray[1];
+                }
+                return str;
+            }
+        }
+        return "";
     }
 
     @Override

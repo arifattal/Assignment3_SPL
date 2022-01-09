@@ -7,8 +7,8 @@ reactor design:
 args[1] = number of threads
 args[2] = port
 192
-example1: 1 7777
-example2: 2 3 7777
+example1(TPC): 1 7777
+example2(Reactor): 2 3 7777
 
 //how to start client(with makeFile and Ari's computer connected to Caesarea wifi)
 1. build project using "make"

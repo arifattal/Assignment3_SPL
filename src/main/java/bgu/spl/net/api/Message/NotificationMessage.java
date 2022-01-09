@@ -21,16 +21,17 @@ public class NotificationMessage extends Message{
             user.addNotification(this);
         }
         else {
-            if (NotificationType == 0)
-                System.out.println("NOTIFICATION " + "PM " + PostingUser + " " + Content);
-            else
-                System.out.println("NOTIFICATION " + "Public " + PostingUser + " " + Content);
+            connections.send(connectionId, this); //sending is done inside the run function, since we would like to send it only if the user is logged in
+//            if (NotificationType == 0)
+//                System.out.println("NOTIFICATION " + "PM " + PostingUser + " " + Content);
+//            else
+//                System.out.println("NOTIFICATION " + "Public " + PostingUser + " " + Content);
         }
     }
 
     @Override
     public String prepareForString() {
-        String str = PostingUser + " " + Content +  ';';
+        String str = NotificationType + " " + PostingUser + " " + Content;
         return str;
     }
 
