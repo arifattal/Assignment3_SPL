@@ -3,8 +3,10 @@ package bgu.spl.net.api;
 import bgu.spl.net.api.Message.*;
 
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
 
@@ -38,13 +40,85 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
     private Message getMessageObj(String[] stringArray){
         if (stringArray != null){
             Message message;
-            if (stringArray[0].equals("REGISTER")){
+            String msgType=stringArray[0];
+            //1
+            if (msgType.equals("REGISTER")){
                 //System.out.println("register message received, nice (:");
                 short opCode = 1;
                 String username = stringArray[1];
                 String pass = stringArray[2];
                 String bDay = stringArray[3];
                 message = new RegisterMessage(opCode, username, pass, bDay);
+                return message;
+            }
+            //2
+            else if(msgType.equals("LOGIN")){
+                short opCode = 2;
+                String username = stringArray[1];
+                String pass = stringArray[2];
+                char captcha = stringArray[3].charAt(0);
+                message = new LoginMessage(opCode, username, pass, captcha);
+                return message;
+            }
+            //3
+            else if(msgType.equals("LOGOUT")){
+                short opCode = 3;
+                message = new LogOutMessage(opCode);
+                return message;
+            }
+            //4
+            else if(msgType.equals("FOLLOW")){
+                short opCode = 4;
+                char follow = stringArray[1].charAt(0);
+                String username = stringArray[2];
+                message = new FollowMessage(opCode, follow, username);
+                return message;
+            }
+            //5
+            else if(msgType.equals("POST")){
+                short opCode = 5;
+                String pstMsg = stringArray[1];
+                message = new PostMessage(opCode,pstMsg);
+                return message;
+            }
+            //6
+            else if(msgType.equals("PM")){
+                short opCode = 6;
+                String username = stringArray[1];
+                String content = stringArray[2];
+                Date date = new Date();
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                String str = formatter.format(date);
+                message = new PmMessage(opCode, username, content, str);
+                return message;
+            }
+            //7
+            else if(msgType.equals("LOGSTAT")){
+                short opCode = 7;
+                message = new LogStatMessage(opCode);
+                return message;
+            }
+            //8
+            else if(msgType.equals("STAT")){
+                short opCode = 8;
+                String usernames = stringArray[1];
+                message = new StatMessage(opCode, usernames);
+                return message;
+            }
+            //9
+            else if(msgType.equals("NOTIFICATION")){
+                short opCode = 9;
+                char type = stringArray[1].charAt(0);
+                String pstUser = stringArray[2];
+                String content = stringArray[3];
+                message = new NotificationMessage(opCode, type, pstUser, content);
+                return message;
+            }
+            //12
+            else if(msgType.equals("BLOCK")){
+                short opCode = 12;
+                String usernames = stringArray[1];
+                message = new BlockMessage(opCode, usernames);
                 return message;
             }
         }
