@@ -266,6 +266,49 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
     }
 
     @Override
+    public byte[] encode(T message){
+        Message msg = (Message)message;
+        switch (msg.getOpCode()){
+            case(9): //notification
+            {
+
+            }
+            case(10):{ //ack
+                switch(msg.getAdditionalBytes()){
+                    case(1):{
+
+                    }
+                    case(2):{
+
+                    }
+                    case(3):{
+
+                    }
+                    case(4):{
+
+                    }
+                    case(5):{
+
+                    }
+                    case(6):{
+
+                    }
+                    case(12):{
+
+                    }
+                }
+            }
+            case(11):{ //error
+                String str = "error " + msg.getAdditionalBytes() + '\n';
+                return str.getBytes();
+            }
+
+            }
+
+        return null;
+    }
+
+    @Override
     public byte[] encode(T message) {
         Message msg = (Message)message; //used for ease due to need for casting
         //String strForBytes = msg.prepareForString();
@@ -336,40 +379,6 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
                 return mergeArrays(bytes1, bytes2, zeroByte);
             }
         }
-//            case(1):
-//            case(5):
-//            case(6):
-//            case(8):
-//            case(12):
-//                {
-//                bytes1 = shortToBytes((msg.getOpCode()));
-//                bytes2 = (strForBytes + "\n").getBytes();
-//                return mergeArrays(bytes1, bytes2);
-//            }
-//            case(2): {
-//                bytes1 = shortToBytes(msg.getOpCode());
-//                bytes2 = (strForBytes).getBytes();
-//                bytes3 = shortToBytes(((LoginMessage)msg).getCaptcha());
-//                byte[] bytes4 = mergeArrays(bytes3, (";".getBytes())); //the encoded message must end with ";". for that reason we merged these two arrays first
-//                return mergeArrays(bytes1, bytes2, bytes4);
-//            }
-//            case (3):
-//            case(7):
-//                {
-//                bytes1 = shortToBytes(msg.getOpCode());
-//                return bytes1;
-//            }
-//            case  (4):
-//            case (9):
-//            case (11):
-//            case (10):
-//            {
-//                bytes1 = shortToBytes(msg.getOpCode());
-//                bytes2 = shortToBytes(msg.getAdditionalBytes());
-//                bytes3 = (strForBytes).getBytes(); //for case 11 strForBytes = ""
-//                return mergeArrays(bytes1, bytes2, bytes3);
-//            }
-//        }
         return null;
     }
 

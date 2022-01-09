@@ -31,6 +31,7 @@ public class LoginMessage extends Message{
                 notifications.poll().runMessage(user, connectionId);
             }
             Message ack = new ACKmessage<>((short) 10, this.opCode, "");
+            ack.runMessage(user, connectionId);
             connections.send(connectionId, ack);
         }
     }
