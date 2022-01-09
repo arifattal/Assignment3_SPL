@@ -2,6 +2,7 @@ package bgu.spl.net.api;
 
 import bgu.spl.net.api.Message.*;
 
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
         if (nextByte == ';') {
             String messageReceived = new String(bytes, 0, len, StandardCharsets.UTF_8);
             String stringArray[] = messageReceived.split(" ");
+            if (stringArray[0].charAt(0) == '\n'){
+                stringArray[0] = stringArray[0].substring(1);
+            }
 //            for (String str : stringArray){
 //                System.out.println(str);
 //            }
@@ -77,7 +81,7 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
             //5
             else if(msgType.equals("POST")){
                 short opCode = 5;
-                String pstMsg = stringArray[1];
+                String pstMsg = stringChain(stringArray,1);
                 message = new PostMessage(opCode,pstMsg);
                 return message;
             }
@@ -85,7 +89,7 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
             else if(msgType.equals("PM")){
                 short opCode = 6;
                 String username = stringArray[1];
-                String content = stringArray[2];
+                String content = stringChain(stringArray,2);
                 Date date = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                 String str = formatter.format(date);
@@ -123,6 +127,17 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
             }
         }
         return null;
+    }
+    //---------------------------------------------------
+    private String stringChain (String [] stringArr,int startIndex){
+        if(stringArr!=null) {
+            String ans = stringArr[startIndex];
+            for (int i = startIndex+1; i < stringArr.length; i++) {
+                ans += " " + stringArr[i];
+            }
+            return ans;
+        }
+        else return null;
     }
 
 
