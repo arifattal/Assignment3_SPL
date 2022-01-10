@@ -19,11 +19,12 @@ public class LoginMessage extends Message{
 
     @Override
     public void runMessage(User user, int connectionId) {
-        if (user.getStatus() != User.Status.loggedOut|| !user.getPassword().equals(password) || captcha == 0){
+        if (user.getStatus() != User.Status.loggedOut|| !user.getPassword().equals(password) || captcha == '0'){
             Message error = new ErrorMessage((short) 11, this.opCode);
             connections.send(connectionId, error);
         }
         else{
+            data.connectUserToConId(user, connectionId);//connects user to connection Id if he doesn't have one, this is used for logging in after a logout
             user.setStatus(User.Status.loggedIn);
             Data.getInstance().incDecLoggedInUsers(1); //increment num of logged in users by 1
             Queue<NotificationMessage> notifications = user.getNotificationsQueue(); //send notifications that have been sent to the user while he was logged out
@@ -34,6 +35,10 @@ public class LoginMessage extends Message{
             ack.runMessage(user, connectionId);
             connections.send(connectionId, ack);
         }
+    }
+
+    public String getUserName(){
+        return userName;
     }
 
     @Override

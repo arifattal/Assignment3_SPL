@@ -270,11 +270,11 @@ public class EncoderDecoder<T> implements MessageEncoderDecoder<T>{
         switch (msg.getOpCode()){
             case(9): //notification
             {
-                String str = "NOTIFICATION " + msg.prepareForString()+ '\n';
+                String str = "NOTIFICATION" + msg.prepareForString()+ '\n';
                 return str.getBytes();
             }
             case(10):{ //ack
-                String str = "ACK " + msg.getAdditionalBytes() + '\n';
+                String str = "ACK " + msg.getAdditionalBytes() + msg.prepareForString() + '\n';
                 return str.getBytes();
             }
             case(11):{ //error

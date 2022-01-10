@@ -17,7 +17,8 @@ public class LogOutMessage extends Message{
         }
         else{
             user.setStatus(User.Status.loggedOut);
-            Data.getInstance().incDecLoggedInUsers(-1); //decrement num of logged in users by 1
+            data.logOutUser(user);
+            data.incDecLoggedInUsers(-1); //decrement num of logged in users by 1
             Message ack = new ACKmessage<>((short) 10, this.opCode, user.getUserName());
             connections.send(connectionId, ack);
         }

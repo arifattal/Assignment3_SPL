@@ -10,7 +10,7 @@ public class Data {
     private final Object post_pmLock = new Object();
 
     private List<Message> post_pmList; //change to concurrent structure
-    private ConcurrentHashMap<String, User> registeredUsersHM;
+    private ConcurrentHashMap<String, User> registeredUsersHM; //maps between userNames and user objects
     private ConcurrentHashMap<User, Integer> usersClientIdsHM; //this HM maps between users and their client ids
     private List<String> filteredWords;
     private int loggedInUsers; //used for LogStatMessage
@@ -30,7 +30,6 @@ public class Data {
         filteredWords = new ArrayList<>();
         loggedInUsers = 0;
     }
-
 
     public boolean isRegistered(String username){
         if (registeredUsersHM.containsKey(username)){
@@ -78,4 +77,14 @@ public class Data {
         return usersClientIdsHM.contains(connectionId);
     }
 
+    public void logOutUser(User user){
+        usersClientIdsHM.remove(user);
+    }
+
+    //connects user to connection Id if he doesn't have one, this is used for logging in after a logout
+    public void connectUserToConId(User user, int connectionId){
+        if (!usersClientIdsHM.containsKey(user)){
+            usersClientIdsHM.put(user, connectionId);
+        }
+    }
 }

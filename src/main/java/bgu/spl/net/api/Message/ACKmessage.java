@@ -51,8 +51,8 @@ public class ACKmessage<T> extends Message{
     @Override
     public String prepareForString() {
         switch(messageOpcode){
-            case(1): case(2): case(3): case(5): case(6):
-                return "";
+            case(1): case(2): case(3): case(5): case(6):{
+                return "";}
             case(4):{
                 return " " + (String)optional;
             }
@@ -62,12 +62,13 @@ public class ACKmessage<T> extends Message{
                 if (optionalArray.length>3){
                     str = " " + optionalArray[0] + " " + optionalArray[1] + " " + optionalArray[2] + " " +  optionalArray[3];
                 }
+                return str;
             }
             case(12):{
                 String[] optionalArray = (String[])optional;
                 String str = " ";
                 if (optionalArray.length > 1) {
-                    str = optionalArray[0] + optionalArray[1];
+                    str = str + optionalArray[0] + " " + optionalArray[1];
                 }
                 return str;
             }

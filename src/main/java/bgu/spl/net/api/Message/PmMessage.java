@@ -39,8 +39,13 @@ public class PmMessage extends Message {
             content = filterWords(content, filteredWords); //filter out banned words
             data.addPost_pm(this); //add post to the post_pm list
             NotificationMessage notification = new NotificationMessage((short)9, (char)0, user.getUserName(), content);
-            int otherUserClientId = data.getUserClientId(otherUser);
-            notification.runMessage(otherUser, otherUserClientId); //running a notification message is different to other messages. here the user sent is the "other user"
+            if (otherUser.getStatus() == User.Status.loggedOut){
+                otherUser.addNotification(notification);
+            }
+            else{
+                int otherUserClientId = data.getUserClientId(otherUser);
+                notification.runMessage(otherUser, otherUserClientId); //running a notification message is different to other messages. here the user sent is the "other user"
+            }
         }
         Message ack = new ACKmessage<>((short) 10, this.opCode, ""); //the pdf doesn't state that an ack needs to be sent but it appears in the example on page 17
         connections.send(connectionId, ack);
