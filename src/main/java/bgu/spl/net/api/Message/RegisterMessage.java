@@ -25,7 +25,7 @@ public class RegisterMessage extends Message{
 
             data.RegisterUser(user, connectionId);
             Message ack = new ACKmessage<>((short) 10, this.opCode, "");
-            ack.runMessage(user, connectionId);
+            //ack.runMessage(user, connectionId);
             connections.send(connectionId, ack);
         }
         else{
