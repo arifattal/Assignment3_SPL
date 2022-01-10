@@ -63,9 +63,14 @@ public class PostMessage extends Message{
             }
             data.addPost_pm(this); //add post to the post_pm list
             for (User user1: sendNotificationList){ //user1 is the user we want to send a notification to
-                int user1ClientId = data.getUserClientId(user1); //this gets the client id that represents user1
                 NotificationMessage notification = new NotificationMessage((short)9, (char)1, user.getUserName(), content);
-                notification.runMessage(user1, user1ClientId); //running a notification message is different to other messages. here the user sent is the "other user"
+                if (user1.getStatus() == User.Status.loggedOut){
+                    user1.addNotification(notification);
+                }
+                else{
+                    int user1ClientId = data.getUserClientId(user1); //this gets the client id that represents user1
+                    notification.runMessage(user1, user1ClientId); //running a notification message is different to other messages. here the user sent is the "other user"
+                }
             }
         }
         Message ack = new ACKmessage<>((short) 10, this.opCode, ""); //the pdf doesn't state that an ack needs to be sent but it appears in the example on page 17

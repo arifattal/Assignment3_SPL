@@ -14,7 +14,6 @@ public class Main {
                     ()->new EncoderDecoder() //encoderDecoder factory lambda
             ).serve();
             }
-
         else if(args[0].equals("2")){
             Server.reactor(
                     Integer.parseInt(args[1]), //num of threads

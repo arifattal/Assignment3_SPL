@@ -19,3 +19,7 @@ argv[1] = server's ip
 argv[2] = server's port
 
 
+///////
+mvn exec:java -Dexec.mainClass="bgu.spl.net.srv.TPCMain" -Dexec.args="2777"
+
+mvn exec:java -Dexec.mainClass=”bgu.spl.net.impl.srv.ReactorMain” -Dexec.args=”7777 3”

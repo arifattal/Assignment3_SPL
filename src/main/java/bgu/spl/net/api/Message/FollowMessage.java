@@ -16,14 +16,9 @@ public class FollowMessage extends Message{
     @Override
     public void runMessage(User user, int connectionId) {
         User otherUser = data.getUser(userName);
-        System.out.println("is user following the other user? " + user.isFollowing(userName));
-        System.out.println("user's status is: " + user.getStatus());
-        System.out.println("other user's address is: " + otherUser);
         if (follow == '0') { //follow
-            System.out.println("entered following statement ");
             if (otherUser == null || user.getStatus() != User.Status.loggedIn || user.isFollowing(userName)){
                 Message error = new ErrorMessage((short) 11, this.opCode);
-                System.out.println("error created");
                 connections.send(connectionId, error);
             }
             else{

@@ -44,7 +44,6 @@ public class BlockingConnectionHandler<T> implements Runnable, bgu.spl.net.srv.C
             while (!protocol.shouldTerminate() && connected && (read = in.read()) >= 0) { //read() returns -1 in case of an error
                 T nextMessage = encdec.decodeNextByte((byte) read);
                 if (nextMessage != null) {
-                    System.out.println("protocol processing message with opCode " + ((Message)nextMessage).getOpCode());
                     protocol.process(nextMessage);
                     //previous lines:
 //                    T response = protocol.process(nextMessage);
@@ -72,7 +71,6 @@ public class BlockingConnectionHandler<T> implements Runnable, bgu.spl.net.srv.C
     public void send(T msg) {
         if (msg != null){
             try {
-                System.out.println("sending message to client");
                 out.write(encdec.encode(msg));
                 out.flush();
             } catch (IOException e) {}

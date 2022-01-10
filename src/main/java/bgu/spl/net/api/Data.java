@@ -31,6 +31,8 @@ public class Data {
         registeredUsersHM = new ConcurrentHashMap<>();
         usersClientIdsHM = new ConcurrentHashMap<>();
         filteredWords = new ArrayList<>();
+        filteredWords.add("shalom");
+        filteredWords.add("maniac");
         loggedInUsers = 0;
     }
 
@@ -96,5 +98,9 @@ public class Data {
         if (!usersClientIdsHM.containsKey(user)){
             usersClientIdsHM.put(user, connectionId);
         }
+    }
+
+    public void setFilteredWords(ArrayList<String> wordsArray){
+        filteredWords = wordsArray;
     }
 }
