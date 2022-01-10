@@ -1,6 +1,9 @@
 package bgu.spl.net.api;
 
 import bgu.spl.net.api.Message.Message;
+import bgu.spl.net.bidi.BidiMessagingProtocol;
+import bgu.spl.net.srv.ConnectionHandler;
+import bgu.spl.net.srv.ConnectionsImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +81,14 @@ public class Data {
     }
 
     public void logOutUser(User user){
-        usersClientIdsHM.remove(user);
+        //change the protocol's shouldTerminate value to true
+        int connectionId = usersClientIdsHM.get(user);
+        ConnectionsImpl connections = ConnectionsImpl.getInstance();
+        ConnectionHandler handler = connections.getConnectionHandler(connectionId);
+        BidiMessagingProtocol protocol = handler.getProtocol();
+        protocol.setShouldTerminate(true);
+        //
+        usersClientIdsHM.remove(user); //remove the mapping between the user and the connection id. this will allow a connectionHandler to take access of this user in the future
     }
 
     //connects user to connection Id if he doesn't have one, this is used for logging in after a logout

@@ -17,10 +17,10 @@ public class LogOutMessage extends Message{
         }
         else{
             user.setStatus(User.Status.loggedOut);
-            data.logOutUser(user);
             data.incDecLoggedInUsers(-1); //decrement num of logged in users by 1
             Message ack = new ACKmessage<>((short) 10, this.opCode, user.getUserName());
             connections.send(connectionId, ack);
+            data.logOutUser(user); //this preforms a number of actions, such as disconnecting the handler. look at the function for more information
         }
     }
 

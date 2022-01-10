@@ -78,4 +78,8 @@ public class BlockingConnectionHandler<T> implements Runnable, bgu.spl.net.srv.C
             } catch (IOException e) {}
         }
     }
+
+    public BidiMessagingProtocol<T> getProtocol(){
+        return protocol;
+    };
 }

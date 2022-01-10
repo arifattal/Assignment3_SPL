@@ -59,4 +59,8 @@ public class ConnectionsImpl implements Connections {
         provideConId ++;
         return provideConId;
     }
+
+    public ConnectionHandler getConnectionHandler(int connectionId){
+        return connectionsHM.get(connectionId);
+    }
 }

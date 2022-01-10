@@ -12,4 +12,6 @@ public interface BidiMessagingProtocol<T>  {
      * @return true if the connection should be terminated
      */
     boolean shouldTerminate();
+
+    void setShouldTerminate(boolean b);
 }
